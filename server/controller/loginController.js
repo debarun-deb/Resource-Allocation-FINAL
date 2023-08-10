@@ -1,29 +1,9 @@
 const loginForm = require("./../models/LoginModel");
 const jwt = require("jsonwebtoken");
-// const createSend = require("./../utilities/jwtUtils");
+const SendToken = require("./../utilities/jwtutils");
 const sendEmail = require("../utilities/email_sender");
 const crypto = require('crypto')
-const signToken = (id, role) => {
-  return jwt.sign({ id: id, role: role }, process.env.JWT_SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRY,
-  });
-};
 
-const createSend = (user, statusCode, res) => {
-  const token = signToken(user._id, user.role);
-  const cookieOptions = {
-    // expires:new Date(Date.now(process.env.JWT_COOKIE*24*60*60*1000)),
-    httpOnly: true,
-  };
-  res.cookie("jwt", token, cookieOptions);
-  res.status(statusCode).json({
-    status: "success",
-    token,
-    data: {
-      user,
-    },
-  });
-};
 
 //signup
 exports.signup = async (req, res) => {
@@ -34,7 +14,7 @@ exports.signup = async (req, res) => {
       role: req.body.role,
     });
     console.log(newUser);
-    createSend(newUser, 200, res);
+    SendToken(newUser, 200, res);
   } catch (err) {
     res.status(409).json({
       error: err.message,
@@ -59,7 +39,7 @@ exports.login = async (req, res) => {
 
     console.log(user); // Log the user object for debugging purposes
 
-    createSend(user, 200, res);
+    SendToken(user, 200, res);
   } catch (err) {
     // If an error occurs during the login process
     res.status(500).json({

@@ -35,5 +35,5 @@ mongoose.connection.on('disconnect',() => {
 
 app.listen(8000, () => {
   connect();
-  console.log("port connected");
+  console.log("Backend Started");
 });
