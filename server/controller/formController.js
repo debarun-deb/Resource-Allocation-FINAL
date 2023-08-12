@@ -1,4 +1,6 @@
 const form = require("./../models/formModel");
+const fs = require('fs')
+const path = require('path')
 const sendEmail = require("../utilities/email_sender")
 const email_Template = require('../utilities/email_templates')
 const APIfeatures = require('../utilities/apiFeatures')
@@ -32,7 +34,9 @@ exports.forms = async (req, res) => {
   const newForm = new form(req.body); 
   try {
     const savedForm = await newForm.save();
-    const emailhtml = email_Template(savedForm)
+    const imagePath = path.join(__dirname,'../data/image/logo-dark.png');
+    const imageData = fs.readFileSync(imagePath, 'base64');
+    const emailhtml = email_Template(savedForm,imageData)
     const mailOptions ={
       from: 'resourcemsg@outlook.com',
       to: savedForm.email,
