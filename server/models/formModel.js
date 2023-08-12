@@ -31,7 +31,7 @@ const formSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  approvedTime: {
+  submittedTime: {
     type: String,
     default: dater,
     select: false,
