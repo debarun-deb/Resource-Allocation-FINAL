@@ -1,30 +1,43 @@
 const form = require("./../models/formModel");
 const sendEmail = require("../utilities/email_sender")
+const email_Template = require('../utilities/email_templates')
+const APIfeatures = require('../utilities/apiFeatures')
+
+exports.getAllForms = async( req ,res ) => {
+  try {
+    const features = new APIfeatures(form.find(), req.query)
+      .filter()
+      .sort()
+      .fields()
+      .page();
+    const allForms = await features.query;
+
+    res.status(200).json({
+      success: true,
+      result: allForms.length,
+      data: {
+        allForms,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(404).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+}
 
 exports.forms = async (req, res) => {
   const newForm = new form(req.body); 
   try {
     const savedForm = await newForm.save();
-    const emailText = `
-    Hello, your form has been successfully submitted.\n
-    Form ID: ${savedForm.formID}\n
-    Resource Name: ${savedForm.resourceName}\n
-    Event Name: ${savedForm.eventName}\n
-    Event Details: ${savedForm.eventDetails}\n
-    Approved Time: ${savedForm.approvedTime}\n
-    Phone Number: ${savedForm.phoneNumber}\n
-    Start Date: ${savedForm.startDate}\n
-    End Date: ${savedForm.endDate}\n
-    Technician: ${savedForm.Technician}\n
-    Cleaning: ${savedForm.Cleaning}\n
-    Sound: ${savedForm.Sound}\n
-    Status: ${savedForm.isSubmitted}\n
-  `;
+    const emailhtml = email_Template(savedForm)
     const mailOptions ={
       from: 'resourcemsg@outlook.com',
       to: savedForm.email,
       subject:'Form submission confirmation',
-      text:emailText
+      html: emailhtml
     }
     await sendEmail(mailOptions)
     res.status(200).json({status: 'success',data:{
