@@ -80,7 +80,7 @@ const Modal = ({ visible, onClose }) => {
             onClick={onClose}
           />
         </div>
-        <form action="" method="post">
+        <form onSubmit={submit} method="post">
           <h1 className="text-3xl pt-2 px-4">Resource Form</h1>
           <div className="flex flex-row p-2 justify-between">
             <div className="flex flex-col">
@@ -124,7 +124,7 @@ const Modal = ({ visible, onClose }) => {
             </div>
           </div>
           <div className="flex flex-col p-2">
-            <p className="text-l font-bold">Necessary Facilities</p>
+            <p className="text-l font-bold">Necessary Facilifties</p>
           </div>
           <div className="flex flex-row px-2">
             <p>Sound Equipment</p>
@@ -167,7 +167,7 @@ const Modal = ({ visible, onClose }) => {
             <button
               className="w-[100px] py-2 mt-8 border-2 bg-[#27374D] hover:bg-[#526D82] text-white rounded-md"
               type="submit"
-              onClick={submit}
+          
             >
               Submit
             </button>
