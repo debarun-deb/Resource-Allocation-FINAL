@@ -9,7 +9,7 @@ const Sidebar = () => {
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="flex float-left">
+    <div className="flex sticky float-left h-screen">
       <div>
         <div
           className={`bg-[#0B2447] h-screen text-white p-5 pt-8 duration-500 relative ${

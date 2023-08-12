@@ -1,5 +1,4 @@
 import React from "react";
-import Bcards from "../components/BCards.jsx";
 
 const Bookings = () => {
   return (
@@ -8,7 +7,7 @@ const Bookings = () => {
       <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-full">
         <h1 className="px-3 text-xl font-bold">Pending</h1>
       </div>
-      <Bcards />
+
       <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-full">
         <h1 className="px-3 text-xl font-bold">Confirmed</h1>
       </div>
