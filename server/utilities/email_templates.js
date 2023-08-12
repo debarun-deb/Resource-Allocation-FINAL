@@ -1,4 +1,4 @@
-module.exports = (savedForm , imageUrl) => {
+module.exports = (savedForm) => {
   return `
     <html>
     <head>
@@ -49,7 +49,6 @@ module.exports = (savedForm , imageUrl) => {
         <li><strong>Sound:</strong> ${savedForm.Sound}</li>
         <li><strong>Status:</strong> ${savedForm.isSubmitted}</li>
       </ul>
-      <img src="data:image/png;base64,${imageUrl}" alt="SMIT LOGO" style="max-width: auto; height: auto;">
     </body>
     </html>
   `;
