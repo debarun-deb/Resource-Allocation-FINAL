@@ -4,7 +4,6 @@ import Login2 from "./screens/Login2";
 import Sidebar from "./components/Sidebar";
 import Bookings from "./screens/Bookings";
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -16,7 +15,6 @@ import ApproverPage from "./screens/ApprovPage";
 function App() {
   return (
     <div>
-      <Router>
         <Routes>
           <Route path="/" element={<ProtectedRoutes/>}>
             <Route path="/" element={<Navigate to="/login" replace={true} />} />
@@ -60,7 +58,6 @@ function App() {
           </Route>
           <Route path="login" element={<Login2 />} />
         </Routes>
-      </Router>
     </div>
   );
 }

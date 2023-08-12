@@ -1,11 +1,11 @@
 const form = require("./../models/formModel");
-const fs = require('fs')
-const path = require('path')
-const sendEmail = require("../utilities/email_sender")
-const email_Template = require('../utilities/email_templates')
-const APIfeatures = require('../utilities/apiFeatures')
+const fs = require("fs");
+const path = require("path");
+const sendEmail = require("../utilities/email_sender");
+const email_Template = require("../utilities/email_templates");
+const APIfeatures = require("../utilities/apiFeatures");
 
-exports.getAllForms = async( req ,res ) => {
+exports.getAllForms = async (req, res) => {
   try {
     const features = new APIfeatures(form.find(), req.query)
       .filter()
@@ -14,45 +14,50 @@ exports.getAllForms = async( req ,res ) => {
       .page();
     const allForms = await features.query;
 
-    res.status(200).json({
-      success: true,
-      result: allForms.length,
-      data: {
-        allForms,
-      },
-    });
+    res.status(200).json(
+      allForms
+    );
   } catch (err) {
     console.error(err);
     res.status(404).json({
-      status: 'fail',
+      status: "fail",
       message: err.message,
     });
   }
-}
+};
 
 exports.forms = async (req, res) => {
-  const newForm = new form(req.body); 
+  const newForm = new form(req.body);
   try {
     const savedForm = await newForm.save();
-    const imagePath = path.join(__dirname,'server','data','image','smitlogo.png')
-    const imageBuffer = fs.readFileSync(imagePath)
-    const imageBase64 = imageBuffer.toString('base64')
-    const imageMimeType = 'image/png'
-    const imageUrl = `data:${imageMimeType};base64,${imageBase64}`
-    const emailhtml = email_Template(savedForm,imageUrl)
-    const mailOptions ={
-      from: 'resourcemsg@outlook.com',
+    const imagePath = path.join(
+      __dirname,
+      "server",
+      "data",
+      "image",
+      "smitlogo.png"
+    );
+    const imageBuffer = fs.readFileSync(imagePath);
+    const imageBase64 = imageBuffer.toString("base64");
+    const imageMimeType = "image/png";
+    const imageUrl = `data:${imageMimeType};base64,${imageBase64}`;
+    const emailhtml = email_Template(savedForm, imageUrl);
+    const mailOptions = {
+      from: "resourcemsg@outlook.com",
       to: savedForm.email,
-      subject:'Form submission confirmation',
-      html: emailhtml
-    }
-    await sendEmail(mailOptions)
-    res.status(200).json({status: 'success',data:{
-      newForm
-    }});
+      subject: "Form submission confirmation",
+      html: emailhtml,
+    };
+    await sendEmail(mailOptions);
+    res.status(200).json({
+      status: "success",
+      data: {
+        newForm,
+      },
+    });
     console.log(savedForm);
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(500).json(e);
   }
 };
