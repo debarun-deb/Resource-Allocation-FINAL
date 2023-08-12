@@ -30,20 +30,9 @@ exports.forms = async (req, res) => {
   const newForm = new form(req.body);
   try {
     const savedForm = await newForm.save();
-    const imagePath = path.join(
-      __dirname,
-      "server",
-      "data",
-      "image",
-      "smitlogo.png"
-    );
-    const imageBuffer = fs.readFileSync(imagePath);
-    const imageBase64 = imageBuffer.toString("base64");
-    const imageMimeType = "image/png";
-    const imageUrl = `data:${imageMimeType};base64,${imageBase64}`;
-    const emailhtml = email_Template(savedForm, imageUrl);
-    const mailOptions = {
-      from: "resourcemsg@outlook.com",
+    const emailhtml = email_Template(savedForm)
+    const mailOptions ={
+      from: 'resourcemsg@outlook.com',
       to: savedForm.email,
       subject: "Form submission confirmation",
       html: emailhtml,
