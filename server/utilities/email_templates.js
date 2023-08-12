@@ -40,7 +40,6 @@ module.exports = (savedForm) => {
         <li><strong>Resource Name:</strong> ${savedForm.resourceName}</li>
         <li><strong>Event Name:</strong> ${savedForm.eventName}</li>
         <li><strong>Event Details:</strong> ${savedForm.eventDetails}</li>
-        <li><strong>Approved Time:</strong> ${savedForm.approvedTime}</li>
         <li><strong>Phone Number:</strong> ${savedForm.phoneNumber}</li>
         <li><strong>Start Date:</strong> ${savedForm.startDate}</li>
         <li><strong>End Date:</strong> ${savedForm.endDate}</li>
@@ -49,6 +48,8 @@ module.exports = (savedForm) => {
         <li><strong>Sound:</strong> ${savedForm.Sound}</li>
         <li><strong>Status:</strong> ${savedForm.isSubmitted}</li>
       </ul>
+      <br>
+      <a href="https://imgbb.com/"><img src="https://i.ibb.co/XSXqWYT/smitlogo.png" alt="smitlogo" border="0"></a>
     </body>
     </html>
   `;
