@@ -1,5 +1,5 @@
 import React from "react";
-import Acards from "./Acards";
+import Acards from "../components/Acards";
 
 function ApprovPage() {
   return (
