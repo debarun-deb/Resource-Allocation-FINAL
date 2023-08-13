@@ -3,15 +3,24 @@ const fs = require("fs");
 const path = require("path");
 const sendEmail = require("../utilities/email_sender");
 const email_Template = require("../utilities/email_templates");
+<<<<<<< HEAD
 
+=======
+>>>>>>> 60fd98d (sorting fixed)
 
 exports.getAllForms = async (req, res) => {
   try {
     const currentDate = new Date();
-    const allForms = await form.find().sort({_id: - 1});
-    res.status(200).json(
-      allForms
-    );
+    const allForms = await form.find()
+      .sort({
+        startDate: 1, // Sort in ascending order based on startDate
+      })
+      .lean() // Convert Mongoose documents to plain objects
+      .exec();
+
+    allForms.sort((a, b) => Math.abs(a.startDate - currentDate) - Math.abs(b.startDate - currentDate));
+
+    res.status(200).json(allForms);
   } catch (err) {
     console.error(err);
     res.status(404).json({
