@@ -6,7 +6,7 @@ import axios from "axios";
 
 const { RangePicker } = DatePicker;
 
-const Modal = ({ visible, onClose }) => {
+const Modal = ({ visible, onClose, name }) => {
   const [dates, setDate] = useState([]);
   const [eventName, setEventName] = useState("");
   const [eventDetails, setEventDetails] = useState("");

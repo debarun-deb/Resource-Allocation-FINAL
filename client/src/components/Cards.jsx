@@ -23,7 +23,7 @@ const Cards = (props) => {
           </p>
         </div>
       </div>
-      <Modal onClose={toggleModal} visible={showModal} />
+      <Modal onClose={toggleModal} visible={showModal} name={props.name}/>
     </div>
   );
 }
