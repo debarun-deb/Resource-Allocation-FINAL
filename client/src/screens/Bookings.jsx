@@ -6,8 +6,7 @@ import Bcards from '../components/BCards'
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
   const[loading, setLoading] = useState();
-  const[error, setError
-  ] = useState();
+  const[error, setError] = useState();
   useEffect(() => {
     const getData = async () => {
       try {
