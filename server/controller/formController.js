@@ -7,13 +7,8 @@ const APIfeatures = require("../utilities/apiFeatures");
 
 exports.getAllForms = async (req, res) => {
   try {
-    const features = new APIfeatures(form.find(), req.query)
-      .filter()
-      .sort()
-      .fields()
-      .page();
-    const allForms = await features.query;
-
+    const currentDate = new Date();
+    const allForms = await form.find().sort({_id: - 1});
     res.status(200).json(
       allForms
     );
