@@ -36,7 +36,11 @@ const Modal = ({ visible, onClose }) => {
   function filterByDates(values) {
     const startDate = dayjs(values[0]).add(1, "day").startOf("day");
     const endDate = dayjs(values[1]).endOf("day");
-    setDate([startDate, endDate]);
+
+    const dateFormat ='YYYY-MM-DD'
+    const formattedStartDate = startDate.format(dateFormat)
+    const formattedEndDate = endDate.format(dateFormat)
+    setDate([formattedStartDate, formattedEndDate]);
   }
 
   async function submit(e) {
@@ -54,7 +58,7 @@ const Modal = ({ visible, onClose }) => {
       Sound: Sound,
     };
     try {
-      axios.post("http://localhost:8000/home", formData);
+       await axios.post("http://localhost:8000/home", formData);
       onClose();
     } catch (e) {
       console.log(e);
