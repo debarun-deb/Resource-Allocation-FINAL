@@ -3,6 +3,8 @@ import { DatePicker } from "antd";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import dayjs from "dayjs";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const { RangePicker } = DatePicker;
 
@@ -39,10 +41,70 @@ const Modal = ({ visible, onClose, name }) => {
     setDate([startDate, endDate]);
   }
   
-  
+  const notify = (msg) => toast(msg);
+
+  function resetFormState() {
+    setDate([]);
+    setEventName("");
+    setEventDetails("");
+    setPhoneNumber("");
+    setEmail("");
+    setTechnician(false);
+    setCleaning(false);
+    setSound(false);
+  }
 
   async function submit(e) {
     e.preventDefault();
+    if (
+      eventName === "" ||
+      eventDetails === "" ||
+      phoneNumber === "" ||
+      email === "" ||
+      dates.length !== 2
+    ) {
+      toast.error('Please fill out all required fields.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      return;
+    }
+    else if (phoneNumber.length < 10 || phoneNumber.length > 10) {
+      toast.warn('Invalid phone number.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      return; 
+    }
+    else 
+    {
+      toast.success('Form Submitted', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      
+      resetFormState();
+    }
+
+
     var formData = {
       resourceName: resourceName,
       eventName: eventName,
@@ -56,8 +118,8 @@ const Modal = ({ visible, onClose, name }) => {
       Sound: Sound,
     };
     try {
-      axios.post("http://localhost:8000/request/home", formData);
-      onClose();
+      await axios.post("http://localhost:8000/request/home", formData);
+      setTimeout(() => onClose(), 2000);
     } catch (e) {
       console.log(e);
     }
@@ -169,10 +231,11 @@ const Modal = ({ visible, onClose, name }) => {
             <button
               className="w-[100px] py-2 mt-8 border-2 bg-[#27374D] hover:bg-[#526D82] text-white rounded-md"
               type="submit"
-          
+              onClick={notify}
             >
               Submit
             </button>
+            <ToastContainer />
           </div>
         </form>
       </div>
