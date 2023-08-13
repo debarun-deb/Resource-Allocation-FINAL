@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use("/", userRoutes);
+app.use("/user", userRoutes);
 app.use("/request", requestRoutes);
 
 dotenv.config();

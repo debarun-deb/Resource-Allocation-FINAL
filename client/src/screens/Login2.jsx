@@ -14,7 +14,7 @@ const Login2 = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8000/login", { // Update the URL to the login endpoint
+      const response = await axios.post("http://localhost:8000/user/login", { // Update the URL to the login endpoint
         email,
         password,
       });
