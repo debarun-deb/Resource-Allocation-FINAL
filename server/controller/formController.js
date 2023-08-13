@@ -3,20 +3,20 @@ const fs = require("fs");
 const path = require("path");
 const sendEmail = require("../utilities/email_sender");
 const email_Template = require("../utilities/email_templates");
-const APIfeatures = require("../utilities/apiFeatures");
 
 exports.getAllForms = async (req, res) => {
   try {
-    const features = new APIfeatures(form.find(), req.query)
-      .filter()
-      .sort()
-      .fields()
-      .page();
-    const allForms = await features.query;
+    const currentDate = new Date();
+    const allForms = await form.find()
+      .sort({
+        startDate: 1, // Sort in ascending order based on startDate
+      })
+      .lean() // Convert Mongoose documents to plain objects
+      .exec();
 
-    res.status(200).json(
-      allForms
-    );
+    allForms.sort((a, b) => Math.abs(a.startDate - currentDate) - Math.abs(b.startDate - currentDate));
+
+    res.status(200).json(allForms);
   } catch (err) {
     console.error(err);
     res.status(404).json({
