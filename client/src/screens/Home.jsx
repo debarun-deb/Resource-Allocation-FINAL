@@ -1,7 +1,8 @@
 import React from "react";
 import Cards from "../components/Cards";
-import wall_post from "../assets/undraw_wall_post_re_y78d.svg";
-import computer from "../assets/undraw_progressive_app_m-9-ms.svg";
+import wall_post from "../assets/Seminar_hall.jpg";
+import Mult from '../assets/Multipurpose_Hall.jpg'
+import computer from "../assets/ccf.jpg";
 
 const Login = () => {
   return (
@@ -12,9 +13,9 @@ const Login = () => {
         </h1>
       </div>
 
-      <div className="grid grid-cols-2 justify-items-center">
+      <div className="grid grid-cols-3 justify-items-center">
         <Cards name="Seminar Hall" loc={wall_post} />
-        <Cards name="Multipurpose Hall" loc={wall_post} />
+        <Cards name="Multipurpose Hall" loc={Mult} />
         <Cards name="Central Computing Facility" loc={computer} />
       </div>
     </div>

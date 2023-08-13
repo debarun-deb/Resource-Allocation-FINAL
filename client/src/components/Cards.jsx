@@ -11,9 +11,9 @@ const Cards = (props) => {
  
   }
   return (
-    <div className="py-10 cursor-pointer" onClick={toggleModal}>
-      <div className="max-w-sm shadow-lg shadow-gray-600 rounded overflow-hidden">
-        <img src={props.loc} alt="" className='w-full h-[150px]' />
+    <div className="cursor-pointer rounded-lg border border-spacing-2" onClick={toggleModal}>
+      <div className="max-w-sm shadow-lg shadow-gray-600 rounded-xl overflow-hidden h-full">
+        <img src={props.loc} alt="" className='w-full' />
         <div className='px-10 py-4'>
           <h2 className="text-2xl font-bold font-serif">{props.name}</h2>
           <p>

@@ -30,7 +30,7 @@ const Bookings = () => {
       <div className="bg-[#1F6E8C] flex my-6 py-3">
         <h1 className="px-3 text-xl font-bold">Pending</h1>
       </div>
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
         {loading ? (<h1>Loading...</h1>): error ? (<h1>Error</h1>) : (bookings.map((books)=>{return <Bcards books={books}/>}))}
       </div>
       <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-full">
