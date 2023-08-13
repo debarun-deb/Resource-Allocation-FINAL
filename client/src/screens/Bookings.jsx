@@ -26,8 +26,7 @@ const Bookings = () => {
   }, []);
   return (
     <div>
-      <h1 className="flex px-5 py-2 text-3xl font-bold">Bookings</h1>
-      <div className="bg-[#1F6E8C] flex my-6 py-3">
+      <div className="bg-[#1F6E8C] flex py-4">
         <h1 className="px-3 text-xl font-bold">Pending</h1>
       </div>
       <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">

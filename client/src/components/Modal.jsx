@@ -3,22 +3,24 @@ import { DatePicker } from "antd";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import dayjs from "dayjs";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const { RangePicker } = DatePicker;
 
-const Modal = ({ visible, onClose, name }) => {
-  const [dates, setDate] = useState([]);
-  const [eventName, setEventName] = useState("");
-  const [eventDetails, setEventDetails] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState(""); // New state for email
-  const [Technician, setTechnician] = useState(false);
-  const [Cleaning, setCleaning] = useState(false);
-  const [Sound, setSound] = useState(false);
-  const resourceName = name;
-  console.log(name)
+const Modal = ({ visible, onClose }) => {
+  let [dates, setDate] = useState([]);
+  let [eventName, setEventName] = useState("");
+  let [eventDetails, setEventDetails] = useState("");
+  let [phoneNumber, setPhoneNumber] = useState("");
+  let [email, setEmail] = useState("");
+  let [studentCoordinatorName, setStudentCoordinatorName] = useState(""); // New state for student coordinator name
+  let [studentEmail, setStudentEmail] = useState("");
+  let [registrationNumber, setRegistrationNumber] = useState("");
+  let [Technician, setTechnician] = useState(false);
+  let [Cleaning, setCleaning] = useState(false);
+  let [Sound, setSound] = useState(false);
+  let resourceName = document.cookie.split(";")[0].split("=")[1];
 
   const disablePastDates = (current) => {
     return current && current < dayjs().endOf("day");
@@ -41,8 +43,9 @@ const Modal = ({ visible, onClose, name }) => {
     const endDate = dayjs(values[1]).endOf("day");
     setDate([startDate, endDate]);
   }
-  
-  const notify = (msg) => toast(msg);
+
+  const notify = (msg) =>
+    toast(msg);
 
   function resetFormState() {
     setDate([]);
@@ -50,6 +53,9 @@ const Modal = ({ visible, onClose, name }) => {
     setEventDetails("");
     setPhoneNumber("");
     setEmail("");
+    setStudentCoordinatorName("");
+    setStudentEmail("");
+    setRegistrationNumber("");
     setTechnician(false);
     setCleaning(false);
     setSound(false);
@@ -57,6 +63,7 @@ const Modal = ({ visible, onClose, name }) => {
 
   async function submit(e) {
     e.preventDefault();
+    const phoneNumberRegex = /^[6789]\d{9}$/;
     if (
       eventName === "" ||
       eventDetails === "" ||
@@ -64,7 +71,7 @@ const Modal = ({ visible, onClose, name }) => {
       email === "" ||
       dates.length !== 2
     ) {
-      toast.error('Please fill out all required fields.', {
+      toast.error("Please fill out all required fields.", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -73,11 +80,10 @@ const Modal = ({ visible, onClose, name }) => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        });
+      });
       return;
-    }
-    else if (phoneNumber.length < 10 || phoneNumber.length > 10) {
-      toast.warn('Invalid phone number.', {
+    } else if (!phoneNumberRegex.test(phoneNumber)) {
+      toast.warn("Invalid phone number.", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -86,12 +92,10 @@ const Modal = ({ visible, onClose, name }) => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        });
-      return; 
-    }
-    else 
-    {
-      toast.success('Form Submitted', {
+      });
+      return;
+    } else {
+      toast.success("Form Submitted", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -100,27 +104,30 @@ const Modal = ({ visible, onClose, name }) => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        });
-      
+      });
+
       resetFormState();
     }
-
 
     var formData = {
       resourceName: resourceName,
       eventName: eventName,
       eventDetails: eventDetails,
       phoneNumber: phoneNumber,
-      email: email, // Include email in the formData
+      email: email,
+      studentCoordinatorName: studentCoordinatorName,
+      studentEmail: studentEmail,
+      registrationNumber: registrationNumber,
       startDate: dates[0],
       endDate: dates[1],
       Technician: Technician,
       Cleaning: Cleaning,
       Sound: Sound,
     };
+    
     try {
       await axios.post("http://localhost:8000/request/home", formData);
-      setTimeout(() => onClose(), 2000);
+      setTimeout(() => onClose(), 900);
     } catch (e) {
       console.log(e);
     }
@@ -137,7 +144,7 @@ const Modal = ({ visible, onClose, name }) => {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="bg-white p-2 rounded w-[600px] h-[600px]"
+        className="bg-white p-4 rounded w-[800px] h-[700px] overflow-y-auto"
       >
         <div className="flex justify-end p-1 float-right">
           <AiOutlineCloseCircle
@@ -145,7 +152,7 @@ const Modal = ({ visible, onClose, name }) => {
             onClick={onClose}
           />
         </div>
-        <form onSubmit={submit} method="post">
+        <form onSubmit={submit} method="post" className="w-full">
           <h1 className="text-3xl pt-2 px-4">Resource Form</h1>
           <div className="flex flex-row p-2 justify-between">
             <div className="flex flex-col">
@@ -189,7 +196,7 @@ const Modal = ({ visible, onClose, name }) => {
             </div>
           </div>
           <div className="flex flex-col p-2">
-            <p className="text-l font-bold">Necessary Facilifties</p>
+            <p className="text-l font-bold">Necessary Facilities</p>
           </div>
           <div className="flex flex-row px-2">
             <p>Sound Equipment</p>
@@ -197,7 +204,7 @@ const Modal = ({ visible, onClose, name }) => {
               type="checkbox"
               name=""
               id=""
-              className=" mx-2 my-2"
+              className="mx-2 my-2"
               checked={Sound}
               onChange={changeSound}
             />
@@ -226,6 +233,30 @@ const Modal = ({ visible, onClose, name }) => {
               type="email"
               className="border-2 border-gray-700 p-2 rounded w-[200px]"
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col p-2">
+            <p className="py-2 text-l font-bold">Student Coordinator Name</p>
+            <input
+              type="text"
+              className="border-2 border-gray-700 p-2 rounded w-[200px]"
+              onChange={(e) => setStudentCoordinatorName(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col p-2">
+            <p className="py-2 text-l font-bold">Student Email</p>
+            <input
+              type="email"
+              className="border-2 border-gray-700 p-2 rounded w-[200px]"
+              onChange={(e) => setStudentEmail(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col p-2">
+            <p className="py-2 text-l font-bold">Registration Number</p>
+            <input
+              type="text"
+              className="border-2 border-gray-700 p-2 rounded w-[200px]"
+              onChange={(e) => setRegistrationNumber(e.target.value)}
             />
           </div>
           <div className="flex p-2">
