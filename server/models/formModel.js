@@ -42,16 +42,14 @@ const formSchema = new mongoose.Schema({
     validate: [validator.isEmail, "Please provide a valid email"],
   },
   phoneNumber: {
-    type: Number,
-    required: true,
+    type: String,
     validate: {
-      validator: function (num) {
-        // Convert the number to a string and check its length
-        const phoneNumberString = num.toString();
-        return phoneNumberString.length >= 10;
+      validator: function(v) {
+        return /^[6-9]\d{9}$/.test(v);
       },
-      message: "Phone number must be at least 10 digits long",
+      message: '{VALUE} is not a valid Indian phone number!'
     },
+    required: [true, 'User phone number required']
   },
   studentCoordinator: {
     type: String,

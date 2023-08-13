@@ -6,62 +6,57 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import "tailwindcss/tailwind.css"; // Import Tailwind CSS
+
 const { RangePicker } = DatePicker;
 
 const Modal = ({ visible, onClose }) => {
-  let [dates, setDate] = useState([]);
-  let [eventName, setEventName] = useState("");
-  let [eventDetails, setEventDetails] = useState("");
-  let [phoneNumber, setPhoneNumber] = useState("");
-  let [email, setEmail] = useState("");
-  let [studentCoordinatorName, setStudentCoordinatorName] = useState(""); // New state for student coordinator name
-  let [studentEmail, setStudentEmail] = useState("");
-  let [registrationNumber, setRegistrationNumber] = useState("");
-  let [Technician, setTechnician] = useState(false);
-  let [Cleaning, setCleaning] = useState(false);
-  let [Sound, setSound] = useState(false);
-  let resourceName = document.cookie.split(";")[0].split("=")[1];
+  const [dates, setDate] = useState([]);
+  const [eventName, setEventName] = useState("");
+  const [eventDetails, setEventDetails] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [Technician, setTechnician] = useState(false);
+  const [Cleaning, setCleaning] = useState(false);
+  const [Sound, setSound] = useState(false);
+  const resourceName = document.cookie.split(";")[0].split("=")[1];
 
   const disablePastDates = (current) => {
     return current && current < dayjs().endOf("day");
   };
 
-  function changeSound() {
+  const changeSound = () => {
     setSound((val) => !val);
-  }
+  };
 
-  function changeTechnician() {
+  const changeTechnician = () => {
     setTechnician((val) => !val);
-  }
+  };
 
-  function changeCleaning() {
+  const changeCleaning = () => {
     setCleaning((val) => !val);
-  }
+  };
 
-  function filterByDates(values) {
+  const filterByDates = (values) => {
     const startDate = dayjs(values[0]).add(1, "day").startOf("day");
     const endDate = dayjs(values[1]).endOf("day");
     setDate([startDate, endDate]);
-  }
+  };
 
-  const notify = (msg) =>
-    toast(msg);
+  const notify = (msg) => toast(msg);
 
-  function resetFormState() {
+  const resetFormState = () => {
     setDate([]);
     setEventName("");
     setEventDetails("");
     setPhoneNumber("");
     setEmail("");
-    setStudentCoordinatorName("");
-    setStudentEmail("");
-    setRegistrationNumber("");
     setTechnician(false);
     setCleaning(false);
     setSound(false);
-  }
+  };
 
-  async function submit(e) {
+  const submit = async (e) => {
     e.preventDefault();
     const phoneNumberRegex = /^[6789]\d{9}$/;
     if (
@@ -109,29 +104,25 @@ const Modal = ({ visible, onClose }) => {
       resetFormState();
     }
 
-    var formData = {
+    const formData = {
       resourceName: resourceName,
       eventName: eventName,
       eventDetails: eventDetails,
       phoneNumber: phoneNumber,
       email: email,
-      studentCoordinatorName: studentCoordinatorName,
-      studentEmail: studentEmail,
-      registrationNumber: registrationNumber,
       startDate: dates[0],
       endDate: dates[1],
       Technician: Technician,
       Cleaning: Cleaning,
       Sound: Sound,
     };
-    
     try {
       await axios.post("http://localhost:8000/request/home", formData);
       setTimeout(() => onClose(), 900);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   if (!visible) return null;
   return (
@@ -144,15 +135,15 @@ const Modal = ({ visible, onClose }) => {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="bg-white p-4 rounded w-[800px] h-[700px] overflow-y-auto"
+        className="modal-container bg-white p-4 rounded-lg w-[700px] max-h-[80vh] overflow-y-auto"
       >
-        <div className="flex justify-end p-1 float-right">
+        <div className="flex justify-end">
           <AiOutlineCloseCircle
             className="text-2xl cursor-pointer"
             onClick={onClose}
           />
         </div>
-        <form onSubmit={submit} method="post" className="w-full">
+        <form onSubmit={submit} method="post" className="form-container">
           <h1 className="text-3xl pt-2 px-4">Resource Form</h1>
           <div className="flex flex-row p-2 justify-between">
             <div className="flex flex-col">
@@ -196,7 +187,7 @@ const Modal = ({ visible, onClose }) => {
             </div>
           </div>
           <div className="flex flex-col p-2">
-            <p className="text-l font-bold">Necessary Facilities</p>
+            <p className="text-l font-bold">Necessary Facilifties</p>
           </div>
           <div className="flex flex-row px-2">
             <p>Sound Equipment</p>
@@ -204,7 +195,7 @@ const Modal = ({ visible, onClose }) => {
               type="checkbox"
               name=""
               id=""
-              className="mx-2 my-2"
+              className=" mx-2 my-2"
               checked={Sound}
               onChange={changeSound}
             />
@@ -235,30 +226,50 @@ const Modal = ({ visible, onClose }) => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="flex flex-col p-2">
-            <p className="py-2 text-l font-bold">Student Coordinator Name</p>
-            <input
-              type="text"
-              className="border-2 border-gray-700 p-2 rounded w-[200px]"
-              onChange={(e) => setStudentCoordinatorName(e.target.value)}
-            />
+          {showCoordinatorFields && (
+            <div className="flex flex-col py-2">
+              <p className="text-l font-bold">Coordinator Email</p>
+              <input
+                type="email"
+                className="border-2 border-gray-700 p-2 rounded w-[200px]"
+                onChange={(e) => setCoordinatorEmail(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col py-2">
+              <p className="text-l font-bold">Registration Number</p>
+              <input
+                type="text"
+                className="border-2 border-gray-700 p-2 rounded w-[200px]"
+                onChange={(e) => setRegistrationNumber(e.target.value)}
+              />
+            </div>
+          )}
+
+        
+<div className="flex justify-center">
+  <button
+    type="button"
+    className="toggle-coordinator-button bg-[#27374d] hover:bg-[#526d82] text-white rounded-md py-2 px-4 my-4"
+    onClick={toggleCoordinatorFields}
+  >
+    {showCoordinatorFields
+      ? "Hide Student Coordinator Fields"
+      : "Add Student Coordinator Fields"}
+  </button>
+</div>
+
+          <div className="flex justify-center">
+            <button
+              type="button"
+              className="toggle-coordinator-button bg-[#27374d] hover:bg-[#526d82] text-white rounded-md py-2 px-4 my-4"
+              onClick={toggleCoordinatorFields}
+            >
+              {showCoordinatorFields
+                ? "Hide Student Coordinator Fields"
+                : "Add Student Coordinator Fields"}
+            </button>
           </div>
-          <div className="flex flex-col p-2">
-            <p className="py-2 text-l font-bold">Student Email</p>
-            <input
-              type="email"
-              className="border-2 border-gray-700 p-2 rounded w-[200px]"
-              onChange={(e) => setStudentEmail(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col p-2">
-            <p className="py-2 text-l font-bold">Registration Number</p>
-            <input
-              type="text"
-              className="border-2 border-gray-700 p-2 rounded w-[200px]"
-              onChange={(e) => setRegistrationNumber(e.target.value)}
-            />
-          </div>
+
           <div className="flex p-2">
             <button
               className="w-[100px] py-2 mt-8 border-2 bg-[#27374D] hover:bg-[#526D82] text-white rounded-md"
@@ -276,4 +287,3 @@ const Modal = ({ visible, onClose }) => {
 };
 
 export default Modal;
-
