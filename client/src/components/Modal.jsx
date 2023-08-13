@@ -33,15 +33,23 @@ const Modal = ({ visible, onClose }) => {
     setCleaning((val) => !val);
   }
 
+  // function filterByDates(values) {
+  //   const startDate = dayjs(values[0]).add(1, "day").startOf("day");
+  //   const endDate = dayjs(values[1]).endOf("day");
+      
+  // const customFormat = "DD-MM-YYYY"; // Define your custom format here
+  
+  // const formattedStartDate = startDate.format(customFormat);
+  // const formattedEndDate = endDate.format(customFormat);
+  //   setDate([formattedStartDate, formattedEndDate]);
+  // }
   function filterByDates(values) {
     const startDate = dayjs(values[0]).add(1, "day").startOf("day");
     const endDate = dayjs(values[1]).endOf("day");
-
-    const dateFormat ='YYYY-MM-DD'
-    const formattedStartDate = startDate.format(dateFormat)
-    const formattedEndDate = endDate.format(dateFormat)
-    setDate([formattedStartDate, formattedEndDate]);
+    setDate([startDate, endDate]);
   }
+  
+  
 
   async function submit(e) {
     e.preventDefault();
@@ -58,7 +66,7 @@ const Modal = ({ visible, onClose }) => {
       Sound: Sound,
     };
     try {
-       await axios.post("http://localhost:8000/home", formData);
+      axios.post("http://localhost:8000/home", formData);
       onClose();
     } catch (e) {
       console.log(e);
