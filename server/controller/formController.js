@@ -3,10 +3,6 @@ const fs = require("fs");
 const path = require("path");
 const sendEmail = require("../utilities/email_sender");
 const email_Template = require("../utilities/email_templates");
-<<<<<<< HEAD
-
-=======
->>>>>>> 60fd98d (sorting fixed)
 
 exports.getAllForms = async (req, res) => {
   try {
