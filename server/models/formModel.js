@@ -54,8 +54,11 @@ const formSchema = new mongoose.Schema({
   studentCoordinator: {
     type: String,
   },
-  RegistrationNo: {
+  registrationNumber: {
     type: Number,
+  },
+  studentEmail:{
+    type: String,
   },
   startDate: {
     type: Date,
