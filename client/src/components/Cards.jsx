@@ -5,8 +5,6 @@ const Cards = (props) => {
   const [showModal, setshowModal] = useState(false);
   const toggleModal = () => {
     setshowModal(!showModal);
-    document.cookie = props.name + ";max-age=0";
-    document.cookie = "resourcename=" + props.name;
   };
   return (
     <div>

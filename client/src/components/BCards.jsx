@@ -1,9 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import dayjs from "dayjs";
 import { FaLongArrowAltRight } from "react-icons/fa";
+import Modal from "./Modal";
+
+
 const Bcards = (props) => {
+  const [showModal, setshowModal] = useState(false);
+  const toggleModal = () => {
+    setshowModal(!showModal);
+  };
   return (
-    <div className="py-3 cursor-pointer flex justify-center max-w-[400px]">
+    <div className="py-3 cursor-pointer flex justify-center max-w-[400px]" onClick={toggleModal} >
       <div className="shadow-lg shadow-gray-600 rounded-xl overflow-hidden w-[100%]">
         <h1 className="text-2xl font-semibold pt-4 px-3 pb-1 bg-[#213555] font-rubik shadow-lg shadow-[#4F709C] text-[#D8C4B6]">
           {props.books.resourceName}
@@ -28,6 +35,7 @@ const Bcards = (props) => {
           </div>
         </div>
       </div>
+      <Modal onClose={toggleModal} visible={showModal} name='book' books={props.books} path={props.path} />
     </div>
   );
 };
