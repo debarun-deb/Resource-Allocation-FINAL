@@ -80,25 +80,32 @@ exports.updateFormStatus = async (req,res) => {
      if(!updateForm) {
       return res.status(400).json({ status: 'failed', message:'form not found'})
      }
-     const mailOptions = {
-      to: [],
+    
+    sender = [updateForm.email]
+
+    status === 'Submitted' && updateForm.status ==='Cancelled'?true:sender.push(custodians[updateForm.resourceName]);
+
+    const mailOptions = {
+      to: sender,
       from: 'resourcemsg@outlook.com',
       subject: 'Form Status Update',
-      text: ''
+      text: `Your form status has been changed to: ${status}`
     };
-
-    if (status === 'Submitted' && updateForm.status === 'Cancelled') {
-      // Don't send email in this case
-      console.log('Form status not changed, no email sent.');
-    } else {
-      mailOptions.to.push(updateForm.email,custodians[updateForm.resourceName]);
-      mailOptions.text = `Your form status has been changed to: ${status}`;
-      console.log('Sending email...');
-      await sendEmail(mailOptions);
-    }
+    await sendEmail(mailOptions);
+    // if (status === 'Submitted' && updateForm.status === 'Cancelled') {
+    //   mailOptions.to.push(updateForm.email);
+    //   mailOptions.text = 
+    //   console.log('Sending email...');
+    //   await sendEmail(mailOptions);
+    // } else {
+    //   mailOptions.to.push(updateForm.email,custodians[updateForm.resourceName]);
+    //   mailOptions.text = `Your form status has been changed to: ${status}`;
+    //   console.log('Sending email...');
+    //   await sendEmail(mailOptions);
+    // }
 
     
-     res.status(200).json({status: 'Success', data: updateForm})
+    res.status(200).json({status: 'Success', data: updateForm})
   } catch (err) {
     console.error(err)
     res.status(500).json(err)
