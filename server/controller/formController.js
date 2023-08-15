@@ -6,6 +6,8 @@ const custodians = {
   "Multipurpose Hall": "debarrun@gmail.com",
   "Central Computing Facility": "samprit62@gmail.com",
 } 
+const pReq = 'jaters1200@gmail.com';
+
 exports.getAllForms = async (req, res) => {
   try {
     const currentDate = new Date();
@@ -17,8 +19,10 @@ exports.getAllForms = async (req, res) => {
       .exec();
 
     allForms.sort((a, b) => Math.abs(a.startDate - currentDate) - Math.abs(b.startDate - currentDate));
-
-    res.status(200).json(allForms);
+    const pMails = allForms.filter(item => item.email === pReq);
+    const npMails = allForms.filter(item => item.email !== pReq);
+    const sortedForms = [...pMails, ...npMails];
+    res.status(200).json(sortedForms);
   } catch (err) {
     console.error(err);
     res.status(404).json({
