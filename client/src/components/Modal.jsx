@@ -156,7 +156,7 @@ const Modal = ({ visible, onClose }) => {
           <h1 className="text-3xl pt-2 px-4">Resource Form</h1>
           <div className="flex flex-row p-2 justify-between">
             <div className="flex flex-col">
-              <p className="py-2 text-l font-bold">Event Name</p>
+              <p className="py-2 text-l font-bold">Event Name <span className="text-red-600">*</span></p>
               <input
                 type="text"
                 className="border-2 border-gray-700 p-2 rounded w-[200px]"
@@ -164,7 +164,7 @@ const Modal = ({ visible, onClose }) => {
               />
             </div>
             <div className="flex flex-col">
-              <p className="py-2 text-l font-bold">Phone Number</p>
+              <p className="py-2 text-l font-bold">Phone Number <span className="text-red-600">*</span></p>
               <input
                 type="text"
                 className="border-2 border-gray-700 p-2 rounded w-[200px]"
@@ -173,7 +173,7 @@ const Modal = ({ visible, onClose }) => {
             </div>
           </div>
           <div className="flex flex-col px-2">
-            <p className="py-2 text-l font-bold">Event Details</p>
+            <p className="py-2 text-l font-bold">Event Details <span className="text-red-600">*</span></p>
             <textarea
               name=""
               id=""
@@ -186,7 +186,7 @@ const Modal = ({ visible, onClose }) => {
           </div>
           <div className="flex flex-row p-2">
             <div className="flex flex-col">
-              <p className="py-2 text-l font-bold">Date & time</p>
+              <p className="py-2 text-l font-bold">Date & time <span className="text-red-600">*</span></p>
               <RangePicker
                 className="border-black hover:border-gray-500"
                 format={"DD-MM-YYYY"}
@@ -228,7 +228,7 @@ const Modal = ({ visible, onClose }) => {
             />
           </div>
           <div className="flex flex-col p-2">
-            <p className="py-2 text-l font-bold">Email</p>
+            <p className="py-2 text-l font-bold">Email <span className="text-red-600">*</span></p>
             <input
               type="email"
               className="border-2 border-gray-700 p-2 rounded w-[200px]"
