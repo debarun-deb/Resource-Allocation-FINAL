@@ -60,16 +60,6 @@ exports.deleteForm = async (req, res) => {
     res.status(500).json(e);
   }
 };
-// //need the email in form when sending it to database
-// exports.sortForm = async (req, res) => {
-//   const currentDate = new Date();
-//   try {
-//     const results = await form
-//       .find({ startDate: { $gte: currentDate } })
-//       .exec();
-//     console.log(results);
-//   } catch (err) {}
-// };
 
 exports.updateFormStatus = async (req,res) => {
   try {
