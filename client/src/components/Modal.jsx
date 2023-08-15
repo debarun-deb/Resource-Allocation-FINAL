@@ -4,7 +4,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import dayjs from "dayjs";
 import axios from "axios";
 import { BsCheckCircleFill } from "react-icons/bs";
-import {  MdCancel } from "react-icons/md";
+import { MdCancel } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import complete from "../assets/complete.svg";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,6 +41,23 @@ const Modal = ({ visible, onClose, name, books, path }) => {
 
   function changeCleaning() {
     setCleaning((val) => !val);
+  }
+
+  async function changeStatus() {
+    var status ='Approved';
+    var resourceName = books.resourceName;
+    var id = books._id;
+
+    try {
+      await axios.patch("http://localhost:8000/request/updateStatus", {
+        id,
+        status,
+        resourceName,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    onClose();
   }
 
   function filterByDates(values) {
@@ -149,7 +166,7 @@ const Modal = ({ visible, onClose, name, books, path }) => {
           e.stopPropagation();
         }}
         className={`bg-white p-4 rounded-3xl ${
-          name !== "book" ? "w-[800px] h-[700px]" : "w-[50%] h-[54%]"
+          name !== "book" ? "w-[800px] h-[700px]" : "w-[50%] h-[460px]"
         } overflow-y-auto border-l-[10px] border-[#2F2E41]`}
       >
         <div className="flex justify-end p-1 float-right">
@@ -357,16 +374,17 @@ const Modal = ({ visible, onClose, name, books, path }) => {
               alt=""
               className="max-h-[70%] absolute right-5 top-0 drop-shadow-[10px_10px_70px_#F79C0C]"
             />
-            <div className="flex justify-center flex-row gap-2">
+            <div className="flex justify-center flex-row gap-2 mt-10">
               <button
-                className="bg-[#1657b8] mt-9 text-white p-2.5 rounded-full transform
+                className="bg-[#1657b8] text-white p-2.5 rounded-full transform
                                 transition duration-200 hover:scale-110 flex flex-row items-center justify-center gap-2"
+                onClick={changeStatus}
               >
                 Approve
                 <BsCheckCircleFill size={20} />
               </button>
               <button
-                className="bg-[#b81616] mt-9 text-white p-2.5 rounded-full transform
+                className="bg-[#b81616] text-white p-2.5 rounded-full transform
                                 transition duration-200 hover:scale-110 flex flex-row items-center justify-center gap-2"
               >
                 Cancel
