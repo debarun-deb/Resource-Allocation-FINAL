@@ -1,0 +1,47 @@
+/* Login.css */
+
+/* Style for the entire login container */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #00C9FF, #92FE9D);
+    background-size: 200% 200%;
+    animation: GradientBackground 10s ease infinite;
+  }
+  
+  /* Style for the header */
+  .header {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+  }
+  
+  /* Style for the card grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-items: center;
+  }
+  
+  /* Animation for the background gradient */
+  @keyframes GradientBackground {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
