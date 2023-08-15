@@ -28,7 +28,7 @@ const Cancellation = () => {
     <div>
       <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
         {loading ? (<h1>Loading...</h1>): error ? (<h1>Error</h1>) : (bookings.map((books)=>{
-         if(books.status==='cancel'){
+         if(books.status==='Cancelled'){
           return <Bcards books={books}/>
          }
          else{

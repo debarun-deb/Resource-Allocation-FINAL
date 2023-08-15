@@ -9,29 +9,29 @@ const Bookings = () => {
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
   const location = useLocation();
+  const getData = async () => {
+    try {
+      const response = (
+        await axios.get("http://localhost:8000/request/getallBookings")
+      ).data;
+      setBookings(response);
+      setLoading(false);
+      console.log(response);
+    } catch (error) {
+      setError(true);
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = (
-          await axios.get("http://localhost:8000/request/getallBookings")
-        ).data;
-        setBookings(response);
-        setLoading(false);
-        console.log(response);
-      } catch (error) {
-        setError(true);
-        console.error(error);
-        setLoading(false);
-      }
-    };
     getData();
   }, []);
 
   return (
-    <div>
-      <div className="bg-[#1F6E8C] flex py-4">
-        <h1 className="px-3 text-xl font-bold">Pending</h1>
+    <div className="flex items-center flex-col">
+      <div className="bg-[#1F6E8C] flex py-4 mt-4 rounded-xl justify-center items-center w-[20%]">
+        <h1 className="px-3 text-xl font-bold">For Approval</h1>
       </div>
       <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
         {loading ? (
@@ -40,12 +40,37 @@ const Bookings = () => {
           <h1>Error</h1>
         ) : (
           bookings.map((books) => {
-            return <Bcards books={books} path={location.pathname} />;
+            if (books.status === "Submitted") {
+              return (
+                <Bcards
+                  books={books}
+                  path={location.pathname}
+                  render={getData}
+                />
+              );
+            } else {
+              return null;
+            }
           })
         )}
       </div>
-      <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-full">
-        <h1 className="px-3 text-xl font-bold">Confirmed</h1>
+      <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-xl justify-center items-center w-[20%]">
+        <h1 className="px-3 text-xl font-bold">Approved Bookings</h1>
+      </div>
+      <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
+        {loading ? (
+          <h1>Loading...</h1>
+        ) : error ? (
+          <h1>Error</h1>
+        ) : (
+          bookings.map((books) => {
+            if (books.status === "Approved") {
+              return <Bcards books={books} />;
+            } else {
+              return null;
+            }
+          })
+        )}
       </div>
     </div>
   );

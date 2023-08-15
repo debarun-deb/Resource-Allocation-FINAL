@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const { RangePicker } = DatePicker;
 
-const Modal = ({ visible, onClose, name, books, path }) => {
+const Modal = ({ visible, onClose, name, books, path, render }) => {
   let [dates, setDate] = useState([]);
   let [eventName, setEventName] = useState("");
   let [eventDetails, setEventDetails] = useState("");
@@ -44,9 +44,9 @@ const Modal = ({ visible, onClose, name, books, path }) => {
   }
 
   async function changeStatus() {
-    var status ='Approved';
     var resourceName = books.resourceName;
     var id = books._id;
+    var status = "Approved";
 
     try {
       await axios.patch("http://localhost:8000/request/updateStatus", {
@@ -58,6 +58,24 @@ const Modal = ({ visible, onClose, name, books, path }) => {
       console.log(e);
     }
     onClose();
+    render();
+  }
+  async function changeStatus1() {
+    var resourceName = books.resourceName;
+    var id = books._id;
+    var status = "Cancelled";
+
+    try {
+      await axios.patch("http://localhost:8000/request/updateStatus", {
+        id,
+        status,
+        resourceName,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    onClose();
+    render();
   }
 
   function filterByDates(values) {
@@ -375,18 +393,18 @@ const Modal = ({ visible, onClose, name, books, path }) => {
               className="max-h-[70%] absolute right-5 top-0 drop-shadow-[10px_10px_70px_#F79C0C]"
             />
             <div className="flex justify-center flex-row gap-2 mt-10">
-              <button
+              {books.status==='Submitted'?(<button
                 className="bg-[#1657b8] text-white p-2.5 rounded-full transform
                                 transition duration-200 hover:scale-110 flex flex-row items-center justify-center gap-2"
                 onClick={changeStatus}
               >
                 Approve
                 <BsCheckCircleFill size={20} />
-              </button>
+              </button>):null}
               <button
                 className="bg-[#b81616] text-white p-2.5 rounded-full transform
                                 transition duration-200 hover:scale-110 flex flex-row items-center justify-center gap-2"
-              >
+              onClick={changeStatus1}>
                 Cancel
                 <MdCancel size={23.5} />
               </button>
