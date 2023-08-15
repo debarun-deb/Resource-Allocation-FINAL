@@ -7,7 +7,8 @@ const formControl = require('../controller/formController')
 router.route('/home').post(formControl.forms)
 router.route('/getallBookings').get(formControl.getAllForms)
 router.route('/home/:id').delete(formControl.deleteForm)
-router.route('/approver').post(formControl.sortForm)
+// router.route('/approver').post(formControl.sortForm)
+router.route('/confirmed').get(formControl.updateCardStatus)
 router.route('/status/:id').patch(formControl.changeFormStatus) // not working need to be tested
 
 

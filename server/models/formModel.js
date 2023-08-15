@@ -17,6 +17,7 @@ const formSchema = new mongoose.Schema({
   },
   status:{
     type:String,
+    enum : ['Submitted', 'Approved', 'Cancelled'],
     default:"Submitted",
   },
   resourceName: {

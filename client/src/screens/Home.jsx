@@ -7,13 +7,13 @@ import computer from "../assets/ccf.jpg";
 const Login = () => {
   return (
     <div className="min-h-screen bg-gray-200">
-    <div className="flex items-center justify-center bg-yellow-400 py-8">
-  <h1 className="text-3xl font-extrabold text-white px-6">
-    Please choose the resource you would like to reserve
-  </h1>
-</div>
+      <div className="flex items-center justify-center bg-yellow-400 py-8">
+        <h1 className="text-3xl font-extrabold text-white px-6">
+          Welcome! Choose the Perfect Space for Your Reservation
+        </h1>
+      </div>
 
-      <div className="grid grid-cols-3 justify-items-center">
+      <div className="grid grid-cols-3 justify-items-center mt-8">
         <Cards name="Seminar Hall" loc={wall_post} />
         <Cards name="Multipurpose Hall" loc={Mult} />
         <Cards name="Central Computing Facility" loc={computer} />

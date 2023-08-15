@@ -1,6 +1,4 @@
 const form = require("./../models/formModel");
-const fs = require("fs");
-const path = require("path");
 const sendEmail = require("../utilities/email_sender");
 const email_Template = require("../utilities/email_templates");
 
@@ -58,16 +56,16 @@ exports.deleteForm = async (req, res) => {
     res.status(500).json(e);
   }
 };
-//need the email in form when sending it to database
-exports.sortForm = async (req, res) => {
-  const currentDate = new Date();
-  try {
-    const results = await form
-      .find({ startDate: { $gte: currentDate } })
-      .exec();
-    console.log(results);
-  } catch (err) {}
-};
+// //need the email in form when sending it to database
+// exports.sortForm = async (req, res) => {
+//   const currentDate = new Date();
+//   try {
+//     const results = await form
+//       .find({ startDate: { $gte: currentDate } })
+//       .exec();
+//     console.log(results);
+//   } catch (err) {}
+// };
 
 exports.changeFormStatus = async (req, res) => {
   const newStatus = req.body.newStatus;
@@ -78,3 +76,14 @@ exports.changeFormStatus = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+exports.updateCardStatus = async (req , res) => {
+  try{
+    const approveForm = await form.find({ status: 'Approved'})
+    console.log(approveForm)
+    res.status(200).json({ status: 'Success' , data: approveForm})
+  } catch (err) {
+    console.log(e);
+    res.status(500).json(e); 
+  }
+}
