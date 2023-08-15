@@ -20,6 +20,10 @@ const loginSchema = mongoose.Schema({
       enum: ['admin','approver','requester'],
       default: 'requester'
     },
+    specialId: {
+      type : String,
+      select: false,
+    },
     passwordResetToken:{
       type: String,
       select: false
@@ -30,6 +34,12 @@ const loginSchema = mongoose.Schema({
     },
   });
 
+  loginSchema.pre('save' , async function (next){
+    if (this.role == 'approver') {
+      this.specialId = this.specialId = crypto.randomBytes(2).toString('hex');
+    }
+    next()
+  })
 
   loginSchema.pre('save', async function (next){
     if(!this.isModified('password')) return next()

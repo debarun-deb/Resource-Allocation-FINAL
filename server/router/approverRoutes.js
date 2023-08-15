@@ -1,3 +1,8 @@
-const form = require('../models/formModel')
-const email_sender = require('../utilities/email_sender')
+const express = require('express')
+const router = express.Router()
+const approver = require('../controller/ApproveController')
+
+router.route('/forApproval').get(approver.approvalRequestList)
+
+module.exports = router
 
