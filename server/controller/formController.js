@@ -1,9 +1,11 @@
 const form = require("./../models/formModel");
-const fs = require("fs");
-const path = require("path");
 const sendEmail = require("../utilities/email_sender");
 const email_Template = require("../utilities/email_templates");
-
+const custodians = {
+  "Seminar Hall": "jaters1200@gmail.com",
+  "Multipurpose Hall": "debarrun@gmail.com",
+  "Central Computing Facility": "samprit62@gmail.com",
+} 
 exports.getAllForms = async (req, res) => {
   try {
     const currentDate = new Date();
@@ -58,23 +60,54 @@ exports.deleteForm = async (req, res) => {
     res.status(500).json(e);
   }
 };
-//need the email in form when sending it to database
-exports.sortForm = async (req, res) => {
-  const currentDate = new Date();
-  try {
-    const results = await form
-      .find({ startDate: { $gte: currentDate } })
-      .exec();
-    console.log(results);
-  } catch (err) {}
-};
 
-exports.changeFormStatus = async (req, res) => {
-  const newStatus = req.body.newStatus;
-  const user = req.params.id;
+exports.updateFormStatus = async (req,res) => {
   try {
-    await form.findByIdAndUpdate(user, { status: newStatus });
+     const { id , status , resourceName } = req.body
+     console.log(req.body)
+     if(!id || !status) {
+      return res.status(400).json({ status: 'failed', message: 'Parameter missing'})
+     }
+     const updateForm = await  form.findByIdAndUpdate(
+      id,
+      { status },
+      {new : true}
+     )
+     if(!updateForm) {
+      return res.status(400).json({ status: 'failed', message:'form not found'})
+     }
+     const mailOptions = {
+      to: [],
+      from: 'resourcemsg@outlook.com',
+      subject: 'Form Status Update',
+      text: ''
+    };
+
+    if (status === 'Submitted' && updateForm.status === 'Cancelled') {
+      // Don't send email in this case
+      console.log('Form status not changed, no email sent.');
+    } else {
+      mailOptions.to.push(updateForm.email,custodians[updateForm.resourceName]);
+      mailOptions.text = `Your form status has been changed to: ${status}`;
+      console.log('Sending email...');
+      await sendEmail(mailOptions);
+    }
+
+    
+     res.status(200).json({status: 'Success', data: updateForm})
   } catch (err) {
-    res.status(500).json(err);
+    console.error(err)
+    res.status(500).json(err)
   }
-};
+}
+
+exports.updateCardStatus = async (req , res) => {
+  try{
+    const approveForm = await form.find({ status: 'Approved'})
+    console.log(approveForm)
+    res.status(200).json({ status: 'Success' , data: approveForm})
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err); 
+  }
+}

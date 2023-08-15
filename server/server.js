@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRoutes = require("./router/userRoutes");
 const requestRoutes = require("./router/requesterRoutes");
+const approverRoutes = require("./router/approverRoutes");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const app = express();
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 app.use("/user", userRoutes);
 app.use("/request", requestRoutes);
+app.use("/approver",approverRoutes);
 
 dotenv.config();
 const connect = async () => {
