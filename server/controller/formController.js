@@ -1,7 +1,11 @@
 const form = require("./../models/formModel");
 const sendEmail = require("../utilities/email_sender");
 const email_Template = require("../utilities/email_templates");
-
+const custodians = {
+  "Seminar Hall": "jaters1200@gmail.com",
+  "Multipurpose Hall": "debarrun@gmail.com",
+  "Central Computing Facility": "samprit62@gmail.com",
+} 
 exports.getAllForms = async (req, res) => {
   try {
     const currentDate = new Date();
@@ -93,7 +97,7 @@ exports.updateFormStatus = async (req,res) => {
       // Don't send email in this case
       console.log('Form status not changed, no email sent.');
     } else {
-      mailOptions.to.push(updateForm.email, 'another@example.com', 'third@example.com');
+      mailOptions.to.push(updateForm.email,custodians[updateForm.resourceName]);
       mailOptions.text = `Your form status has been changed to: ${status}`;
       console.log('Sending email...');
       await sendEmail(mailOptions);
