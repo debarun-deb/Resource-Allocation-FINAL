@@ -1,4 +1,5 @@
 const form = require("./../models/formModel");
+const user = require("../models/LoginModel")
 const sendEmail = require("../utilities/email_sender");
 const email_Template = require("../utilities/email_templates");
 const custodians = {
@@ -6,23 +7,14 @@ const custodians = {
   "Multipurpose Hall": "debarrun@gmail.com",
   "Central Computing Facility": "samprit62@gmail.com",
 } 
-const pReq = 'jaters1200@gmail.com';
 
-exports.getAllForms = async (req, res) => {
+
+exports.getRequesterForms = async (req, res) => {
   try {
-    const currentDate = new Date();
-    const allForms = await form.find()
-      .sort({
-        startDate: 1, // Sort in ascending order based on startDate
-      })
-      .lean() // Convert Mongoose documents to plain objects
-      .exec();
-
-    allForms.sort((a, b) => Math.abs(a.startDate - currentDate) - Math.abs(b.startDate - currentDate));
-    const pMails = allForms.filter(item => item.email === pReq);
-    const npMails = allForms.filter(item => item.email !== pReq);
-    const sortedForms = [...pMails, ...npMails];
-    res.status(200).json(sortedForms);
+    const userName = req.user.email
+    console.log(userName)
+    const requesterForms = await form.find({ email: userName})
+    res.status(200).json(requesterForms);
   } catch (err) {
     console.error(err);
     res.status(404).json({
@@ -93,20 +85,7 @@ exports.updateFormStatus = async (req,res) => {
       subject: 'Form Status Update',
       text: `Your form status has been changed to: ${status}`
     };
-    await sendEmail(mailOptions);
-    // if (status === 'Submitted' && updateForm.status === 'Cancelled') {
-    //   mailOptions.to.push(updateForm.email);
-    //   mailOptions.text = 
-    //   console.log('Sending email...');
-    //   await sendEmail(mailOptions);
-    // } else {
-    //   mailOptions.to.push(updateForm.email,custodians[updateForm.resourceName]);
-    //   mailOptions.text = `Your form status has been changed to: ${status}`;
-    //   console.log('Sending email...');
-    //   await sendEmail(mailOptions);
-    // }
-
-    
+    await sendEmail(mailOptions);    
     res.status(200).json({status: 'Success', data: updateForm})
   } catch (err) {
     console.error(err)
@@ -114,13 +93,13 @@ exports.updateFormStatus = async (req,res) => {
   }
 }
 
-exports.updateCardStatus = async (req , res) => {
-  try{
-    const approveForm = await form.find({ status: 'Approved'})
-    console.log(approveForm)
-    res.status(200).json({ status: 'Success' , data: approveForm})
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err); 
-  }
-}
+// exports.updateCardStatus = async (req , res) => {
+//   try{
+//     const approveForm = await form.find({ status: 'Approved'})
+//     console.log(approveForm)
+//     res.status(200).json({ status: 'Success' , data: approveForm})
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json(err); 
+//   }
+// }
