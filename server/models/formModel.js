@@ -20,6 +20,10 @@ const formSchema = new mongoose.Schema({
     enum : ['Submitted', 'Approved', 'Cancelled'],
     default:"Submitted",
   },
+  userEmail: {
+    type: String,
+    required: true,
+  },
   resourceName: {
     type: String,
     required: true,
