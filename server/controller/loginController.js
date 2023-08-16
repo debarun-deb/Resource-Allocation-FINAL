@@ -34,6 +34,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({
         status: "failed",
         message: "Incorrect email or password",
+        data: user
       });
     }
 

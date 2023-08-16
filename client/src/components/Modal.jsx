@@ -5,8 +5,8 @@ import dayjs from "dayjs";
 import axios from "axios";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
-import { ToastContainer, toast } from "react-toastify";
 import complete from "../assets/complete.svg";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const { RangePicker } = DatePicker;
@@ -83,8 +83,6 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
     const endDate = dayjs(values[1]).endOf("day");
     setDate([startDate, endDate]);
   }
-
-  const notify = (msg) => toast(msg);
 
   function resetFormState() {
     setDate([]);
@@ -315,7 +313,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
               <button
                 className="w-[100px] py-2 mt-8 border-2 bg-[#27374D] hover:bg-[#526D82] text-white rounded-md"
                 type="submit"
-                onClick={notify}
+                onClick={toast}
               >
                 Submit
               </button>
@@ -393,21 +391,26 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
               className="max-h-[70%] absolute right-5 top-0 drop-shadow-[10px_10px_70px_#F79C0C]"
             />
             <div className="flex justify-center flex-row gap-2 mt-10">
-              {books.status==='Submitted'?(<button
-                className="bg-[#1657b8] text-white p-2.5 rounded-full transform
+              {books.status === "Submitted" || books.status === "Cancelled" ? (
+                <button
+                  className="bg-[#1657b8] text-white p-2.5 rounded-full transform
                                 transition duration-200 hover:scale-110 flex flex-row items-center justify-center gap-2"
-                onClick={changeStatus}
-              >
-                Approve
-                <BsCheckCircleFill size={20} />
-              </button>):null}
-              <button
-                className="bg-[#b81616] text-white p-2.5 rounded-full transform
+                  onClick={changeStatus}
+                >
+                  Approve
+                  <BsCheckCircleFill size={20} />
+                </button>
+              ) : null}
+              {books.status === "Cancelled" ? null : (
+                <button
+                  className="bg-[#b81616] text-white p-2.5 rounded-full transform
                                 transition duration-200 hover:scale-110 flex flex-row items-center justify-center gap-2"
-              onClick={changeStatus1}>
-                Cancel
-                <MdCancel size={23.5} />
-              </button>
+                  onClick={changeStatus1}
+                >
+                  Cancel
+                  <MdCancel size={23.5} />
+                </button>
+              )}
             </div>
           </div>
         )}

@@ -16,7 +16,6 @@ const Bookings = () => {
       ).data;
       setBookings(response);
       setLoading(false);
-      console.log(response);
     } catch (error) {
       setError(true);
       console.error(error);
@@ -27,7 +26,6 @@ const Bookings = () => {
   useEffect(() => {
     getData();
   }, []);
-
   return (
     <div className="flex items-center flex-col">
       <div className="bg-[#1F6E8C] flex py-4 mt-4 rounded-xl justify-center items-center w-[20%]">
