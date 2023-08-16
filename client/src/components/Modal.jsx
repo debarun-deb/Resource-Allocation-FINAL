@@ -7,11 +7,13 @@ import { BsCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
 import complete from "../assets/complete.svg";
 import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 
 const { RangePicker } = DatePicker;
 
 const Modal = ({ visible, onClose, name, books, path, render }) => {
+  const user = useSelector((state) => state.User);
   let [dates, setDate] = useState([]);
   let [eventName, setEventName] = useState("");
   let [eventDetails, setEventDetails] = useState("");
@@ -24,6 +26,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
   let [Cleaning, setCleaning] = useState(false);
   let [Sound, setSound] = useState(false);
   let resourceName = name;
+  let userEmail = user.email;
 
   console.log(path);
 
@@ -160,6 +163,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
       Technician: Technician,
       Cleaning: Cleaning,
       Sound: Sound,
+      userEmail: userEmail,
     };
 
     try {

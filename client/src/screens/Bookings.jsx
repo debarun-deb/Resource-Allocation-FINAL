@@ -3,29 +3,37 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Bcards from "../components/BCards";
+import { useSelector } from "react-redux";
+
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
   const location = useLocation();
+  const token = useSelector((state) =>state.token)
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
   const getData = async () => {
     try {
       const response = (
-        await axios.get("http://localhost:8000/request/getallBookings")
+        await axios.get("http://localhost:8000/request/requesterForms",config)
       ).data;
       setBookings(response);
       setLoading(false);
+      console.log(response);
     } catch (error) {
       setError(true);
       console.error(error);
       setLoading(false);
     }
   };
-
   useEffect(() => {
     getData();
-  }, []);
+  },);
   return (
     <div className="flex items-center flex-col">
       <div className="bg-[#1F6E8C] flex py-4 mt-4 rounded-xl justify-center items-center w-[20%]">
