@@ -13,7 +13,7 @@ exports.getRequesterForms = async (req, res) => {
   try {
     const userName = req.user.email
     console.log(userName)
-    const requesterForms = await form.find({ email: userName})
+    const requesterForms = await form.find({ userEmail: userName})
     res.status(200).json(requesterForms);
   } catch (err) {
     console.error(err);

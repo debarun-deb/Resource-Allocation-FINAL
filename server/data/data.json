@@ -1,0 +1,42 @@
+[
+    {
+      "resourceName": "Seminar Hall",
+      "eventName": "Event 1",
+      "eventDetails": "Details for Event 1",
+      "email": "debarrun@gmail.com",
+      "phoneNumber": 3297047832478923,
+      "startDate": "2023-08-30T18:30:00.000+00:00",
+      "endDate": "2023-09-17T18:29:59.999+00:00",
+      "Technician": false,
+      "Cleaning": false,
+      "Sound": false,
+      "userEmail": "admin@gmail.com"
+    },
+    {
+      "resourceName": "Conference Room",
+      "eventName": "Event 2",
+      "eventDetails": "Details for Event 2",
+      "email": "organizer@example.com",
+      "phoneNumber": 1234567890,
+      "startDate": "2023-10-05T10:00:00.000+00:00",
+      "endDate": "2023-10-05T16:00:00.000+00:00",
+      "Technician": true,
+      "Cleaning": true,
+      "Sound": true,
+      "userEmail": "admin@gmail.com"
+    },
+    {
+      "resourceName": "Auditorium",
+      "eventName": "Event 3",
+      "eventDetails": "Details for Event 3",
+      "email": "eventplanner@mail.com",
+      "phoneNumber": 9876543210,
+      "startDate": "2023-11-15T14:00:00.000+00:00",
+      "endDate": "2023-11-15T18:00:00.000+00:00",
+      "Technician": false,
+      "Cleaning": false,
+      "Sound": true,
+      "userEmail": "admin@gmail.com"
+    }
+  ]
+  

@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
+const User = require('../models/LoginModel')
 
-exports.verify = (req, res, next) => {
+exports.verify = async (req, res, next) => {
   try {
     let token;
     //token is not present
@@ -20,13 +21,8 @@ exports.verify = (req, res, next) => {
     if (!verified) {
       return res.status(403).json({ status: "failed", message: "forbidden" });
     }
-    if (!verified.role) {
-      return res
-        .status(403)
-        .json({ status: "failed", message: "No role found in the token" });
-    }
 
-    req.user = verified;
+    req.user = await User.findById(verified.id);;
     console.log(req.user);
     // console.log('User Role:', req.user.role); // Log the user's role for debugging
 
