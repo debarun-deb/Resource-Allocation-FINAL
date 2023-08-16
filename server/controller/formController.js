@@ -32,6 +32,8 @@ exports.getAllForms = async (req, res) => {
   }
 };
 
+
+
 exports.forms = async (req, res) => {
   const newForm = new form(req.body);
   try {

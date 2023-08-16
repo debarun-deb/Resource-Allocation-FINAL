@@ -12,7 +12,7 @@ function ApprovPage() {
   const getData = async () => {
     try {
       const response = (
-        await axios.get("http://localhost:8000/request/getallBookings")
+        await axios.get("http://localhost:8000/approver/forApproval")
       ).data;
       setBookings(response);
       setLoading(false);
