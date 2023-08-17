@@ -395,7 +395,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
               className="max-h-[70%] absolute right-5 top-0 drop-shadow-[10px_10px_70px_#F79C0C]"
             />
             <div className="flex justify-center flex-row gap-2 mt-10">
-              {books.status === "Submitted" || books.status === "Cancelled" || user.role==="" ? (
+              {(books.status === "Submitted"||user.role!=='requester') || (books.status === "Cancelled" && user.role!=='requester')? (
                 <button
                   className="bg-[#1657b8] text-white p-2.5 rounded-full transform
                                 transition duration-200 hover:scale-110 flex flex-row items-center justify-center gap-2"
@@ -405,7 +405,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
                   <BsCheckCircleFill size={20} />
                 </button>
               ) : null}
-              {books.status === "Cancelled" ? null : (
+              {books.status === "Cancelled"? null : (
                 <button
                   className="bg-[#b81616] text-white p-2.5 rounded-full transform
                                 transition duration-200 hover:scale-110 flex flex-row items-center justify-center gap-2"

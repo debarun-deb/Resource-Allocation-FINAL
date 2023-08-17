@@ -3,16 +3,23 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Bcards from "../components/BCards";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function ApprovPage() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
   const location = useLocation();
+  const token = useSelector((state) =>state.token)
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
   const getData = async () => {
     try {
       const response = (
-        await axios.get("http://localhost:8000/approver/forApproval")
+        await axios.get("http://localhost:8000/approver/forApproval",config)
       ).data;
       setBookings(response);
       setLoading(false);

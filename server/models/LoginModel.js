@@ -20,9 +20,10 @@ const loginSchema = mongoose.Schema({
       enum: ['admin','approver','requester'],
       default: 'requester'
     },
-    specialId: {
-      type : String,
-      select: false,
+    location:{
+      type: String,
+      enum: ['Seminar Hall','Multipurpose Hall','Central Computing Facility'],
+      default: 'Seminar Hall'
     },
     passwordResetToken:{
       type: String,
