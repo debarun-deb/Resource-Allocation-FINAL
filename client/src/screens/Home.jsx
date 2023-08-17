@@ -7,7 +7,7 @@ import computer from "../assets/ccf.jpg";
 const Login = () => {
   return (
     <div className="min-h-screen bg-gray-200">
-      <div className="flex items-center justify-center bg-yellow-400 py-8">
+      <div className="flex items-center justify-center bg-purple-400 py-8">
         <h1 className="text-3xl font-extrabold text-white px-6">
           Welcome! Choose the Perfect Space for Your Reservation
         </h1>
