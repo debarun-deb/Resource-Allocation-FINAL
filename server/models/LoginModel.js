@@ -59,6 +59,6 @@ loginSchema.methods.resetPassToken = async function(){
   return reset
 }
 
-  const loginData = mongoose.model("collections", loginSchema);
+  const loginData = mongoose.model("userInfo", loginSchema);
 
   module.exports = loginData;
