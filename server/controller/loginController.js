@@ -38,7 +38,6 @@ exports.login = async (req, res) => {
         data: user
       });
     }
-
     // console.log(user); // Log the user object for debugging purposes
     SendToken(user, 200, res);
   } catch (err) {

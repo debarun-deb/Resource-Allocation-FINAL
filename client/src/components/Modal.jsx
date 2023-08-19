@@ -27,6 +27,12 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
   let [Sound, setSound] = useState(false);
   let resourceName = name;
   let userEmail = user.email;
+  const token = useSelector((state) =>state.token)
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
 
   console.log(path);
 
@@ -167,7 +173,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
     };
 
     try {
-      await axios.post("http://localhost:8000/request/home", formData);
+      await axios.post("http://localhost:8000/request/home",formData);
       setTimeout(() => onClose(), 900);
     } catch (e) {
       console.log(e);
