@@ -12,6 +12,7 @@ exports.signup = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       role: req.body.role,
+      location: req.body.location,
     });
     console.log(newUser);
     SendToken(newUser, 200, res);

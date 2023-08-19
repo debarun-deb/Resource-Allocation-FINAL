@@ -27,12 +27,6 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
   let [Sound, setSound] = useState(false);
   let resourceName = name;
   let userEmail = user.email;
-  const token = useSelector((state) =>state.token)
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
 
   console.log(path);
 
