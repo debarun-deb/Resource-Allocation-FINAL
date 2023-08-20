@@ -1,7 +1,8 @@
 const form = require("./../models/formModel");
 const user = require("../models/LoginModel")
 const sendEmail = require("../utilities/email_sender");
-const email_Template = require("../utilities/email_templates");
+const email_Template = require("../utilities/requester_template");
+const email_template1 = require("../utilities/approver_template");
 const custodians = {
   "Seminar Hall": "jaters1200@gmail.com",
   "Multipurpose Hall": "debarrun@gmail.com",
@@ -78,13 +79,13 @@ exports.updateFormStatus = async (req,res) => {
     sender = [updateForm.email]
 
     status === 'Submitted' && updateForm.status ==='Cancelled'?true:sender.push(custodians[updateForm.resourceName]);
-    const emailhtml = email_Template(updateForm)
+       const emailhtml = email_Template1(updateForm)
     const mailOptions = {
       to: sender,
       from: 'resourcemsg@outlook.com',
       subject: 'Form Status Update',
       // text: `Your form status has been changed to: ${status}`
-      html: emailhtml
+      html: email
     };
     await sendEmail(mailOptions);    
     res.status(200).json({status: 'Success', data: updateForm})
