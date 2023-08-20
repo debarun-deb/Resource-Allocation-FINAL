@@ -394,28 +394,35 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
               alt=""
               className="max-h-[70%] absolute right-5 top-0 drop-shadow-[10px_10px_70px_#F79C0C]"
             />
-            <div className="flex justify-center flex-row gap-2 mt-10">
-              {(books.status === "Submitted"||user.role!=='requester') || (books.status === "Cancelled" && user.role!=='requester')? (
-                <button
-                  className="bg-[#1657b8] text-white p-2.5 rounded-full transform
+            {path !== "/Cancellation" ? (
+              <div className="flex justify-center flex-row gap-2 mt-10">
+                {(books.status === "Submitted" &&
+                  user.role !== "requester" &&
+                  path !== "/Bookings") ||
+                (books.status === "Cancelled" &&
+                  user.role !== "requester" &&
+                  path !== "/Bookings") ? (
+                  <button
+                    className="bg-[#1657b8] text-white p-2.5 rounded-full transform
                                 transition duration-200 hover:scale-110 flex flex-row items-center justify-center gap-2"
-                  onClick={changeStatus}
-                >
-                  Approve
-                  <BsCheckCircleFill size={20} />
-                </button>
-              ) : null}
-              {books.status === "Cancelled"? null : (
-                <button
-                  className="bg-[#b81616] text-white p-2.5 rounded-full transform
+                    onClick={changeStatus}
+                  >
+                    Approve
+                    <BsCheckCircleFill size={20} />
+                  </button>
+                ) : null}
+                {books.status === "Cancelled" ? null : (
+                  <button
+                    className="bg-[#b81616] text-white p-2.5 rounded-full transform
                                 transition duration-200 hover:scale-110 flex flex-row items-center justify-center gap-2"
-                  onClick={changeStatus1}
-                >
-                  Cancel
-                  <MdCancel size={23.5} />
-                </button>
-              )}
-            </div>
+                    onClick={changeStatus1}
+                  >
+                    Cancel
+                    <MdCancel size={23.5} />
+                  </button>
+                )}
+              </div>
+            ) : null}
           </div>
         )}
       </div>

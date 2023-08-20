@@ -10,16 +10,16 @@ function ApprovPage() {
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
   const location = useLocation();
-  const token = useSelector((state) =>state.token)
+  const token = useSelector((state) => state.token);
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   };
   const getData = async () => {
     try {
       const response = (
-        await axios.get("http://localhost:8000/approver/forApproval",config)
+        await axios.get("http://localhost:8000/approver/forApproval", config)
       ).data;
       setBookings(response);
       setLoading(false);
@@ -47,7 +47,13 @@ function ApprovPage() {
         ) : (
           bookings.map((books) => {
             if (books.status === "Submitted") {
-              return <Bcards books={books} path={location.pathname} render={getData}/>;
+              return (
+                <Bcards
+                  books={books}
+                  path={location.pathname}
+                  render={getData}
+                />
+              );
             } else {
               return null;
             }
@@ -65,7 +71,37 @@ function ApprovPage() {
         ) : (
           bookings.map((books) => {
             if (books.status === "Approved") {
-              return <Bcards books={books} path={location.pathname} render={getData}/>;
+              return (
+                <Bcards
+                  books={books}
+                  path={location.pathname}
+                  render={getData}
+                />
+              );
+            } else {
+              return null;
+            }
+          })
+        )}
+      </div>
+      <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-xl justify-center items-center w-[20%]">
+        <h1 className="px-3 text-xl font-bold">Cancelled Bookings</h1>
+      </div>
+      <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
+        {loading ? (
+          <h1>Loading...</h1>
+        ) : error ? (
+          <h1>Error</h1>
+        ) : (
+          bookings.map((books) => {
+            if (books.status === "Cancelled") {
+              return (
+                <Bcards
+                  books={books}
+                  path={location.pathname}
+                  render={getData}
+                />
+              );
             } else {
               return null;
             }
