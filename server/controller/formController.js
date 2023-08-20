@@ -78,12 +78,13 @@ exports.updateFormStatus = async (req,res) => {
     sender = [updateForm.email]
 
     status === 'Submitted' && updateForm.status ==='Cancelled'?true:sender.push(custodians[updateForm.resourceName]);
-
+    const emailhtml = email_Template(updateForm)
     const mailOptions = {
       to: sender,
       from: 'resourcemsg@outlook.com',
       subject: 'Form Status Update',
-      text: `Your form status has been changed to: ${status}`
+      // text: `Your form status has been changed to: ${status}`
+      html: emailhtml
     };
     await sendEmail(mailOptions);    
     res.status(200).json({status: 'Success', data: updateForm})
@@ -91,7 +92,7 @@ exports.updateFormStatus = async (req,res) => {
     console.error(err)
     res.status(500).json(err)
   }
-}
+} 
 
 // exports.updateCardStatus = async (req , res) => {
 //   try{
