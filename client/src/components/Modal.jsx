@@ -368,7 +368,9 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
               </span>
               <span className="mx-2 ml-12 font-bold">:</span>
               <span className="bg-[#2F2E41] p-2 font-rubik font-bold rounded-lg text-gray-200">
-                {books.startDate}
+              {dayjs(books.startDate)
+                .subtract(1, "day")
+                .format("DD MMM YYYY")}
               </span>
             </p>
             <p className="text-[17px] pt-4">
@@ -377,7 +379,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
               </span>
               <span className="mx-2 ml-14 font-bold">:</span>
               <span className="bg-[#2F2E41] p-2 font-rubik font-bold rounded-lg text-gray-200">
-                {books.endDate}
+              {dayjs(books.endDate).format("DD MMM YYYY")}
               </span>
             </p>
             <p className="text-[17px] pt-4 z-[1]">

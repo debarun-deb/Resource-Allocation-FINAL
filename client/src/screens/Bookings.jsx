@@ -70,7 +70,13 @@ const Bookings = () => {
         ) : (
           bookings.map((books) => {
             if (books.status === "Approved") {
-              return <Bcards books={books} />;
+              return (
+                <Bcards
+                  books={books}
+                  path={location.pathname}
+                  render={getData}
+                />
+              );
             } else {
               return null;
             }
