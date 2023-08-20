@@ -12,6 +12,7 @@ exports.signup = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       role: req.body.role,
+      location: req.body.location,
     });
     console.log(newUser);
     SendToken(newUser, 200, res);
@@ -38,7 +39,6 @@ exports.login = async (req, res) => {
         data: user
       });
     }
-
     // console.log(user); // Log the user object for debugging purposes
     SendToken(user, 200, res);
   } catch (err) {
