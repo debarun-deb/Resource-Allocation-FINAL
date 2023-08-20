@@ -2,8 +2,6 @@ const loginForm = require("./../models/LoginModel");
 const jwt = require("jsonwebtoken");
 const SendToken = require("./../utilities/jwtutils");
 const sendEmail = require("../utilities/email_sender");
-const crypto = require('crypto')
-
 
 //signup
 exports.signup = async (req, res) => {
@@ -108,7 +106,7 @@ exports.resetPassword = async (req, res) => {
     // Save the updated user document
     await user.save();
 
- 
+
     res.status(200).json({ status: 'success', message: 'Password reset successful' });
   } catch (err) {
     res.status(500).json({
