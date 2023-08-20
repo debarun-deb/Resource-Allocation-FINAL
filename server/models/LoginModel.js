@@ -1,7 +1,6 @@
 const mongoose = require("mongoose") 
 const validator = require("validator")
 const bcrypt = require("bcrypt")
-const crypto = require('crypto')
 const loginSchema = mongoose.Schema({
     email: {
       type: String,
@@ -34,13 +33,6 @@ const loginSchema = mongoose.Schema({
       select: false
     },
   });
-
-  loginSchema.pre('save' , async function (next){
-    if (this.role == 'approver') {
-      this.specialId = this.specialId = crypto.randomBytes(2).toString('hex');
-    }
-    next()
-  })
 
   loginSchema.pre('save', async function (next){
     if(!this.isModified('password')) return next()
