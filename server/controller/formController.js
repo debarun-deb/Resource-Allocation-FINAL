@@ -77,7 +77,7 @@ exports.updateFormStatus = async (req,res) => {
     sender = [updateForm.email]
 
     status === 'Submitted' && updateForm.status ==='Cancelled'?true:sender.push(custodians[updateForm.resourceName]);
-       const emailhtml = email_Template(updateForm)
+      //  const emailhtml = email_Template(updateForm)
     const mailOptions = {
       to: sender,
       from: 'resourcemsg@outlook.com',

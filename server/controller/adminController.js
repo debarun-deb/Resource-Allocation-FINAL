@@ -6,3 +6,9 @@ exports.queryResults = async(req,res)=>{
     let results = await formModel.find(qObj);
     res.status(201).json({status:"success",data:results});
 }
+
+
+exports.calendarArrayObj = async(req,res)=>{
+    let [...formDates]  = await formModel.find({},{startDate:1,endDate:1,_id:0});
+    res.status(200).json({status:"success",data:formDates});
+}
