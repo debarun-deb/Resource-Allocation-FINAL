@@ -21,8 +21,8 @@ const loginSchema = mongoose.Schema({
     },
     location:{
       type: String,
-      enum: ['Seminar Hall','Multipurpose Hall','Central Computing Facility'],
-      default: 'Seminar Hall'
+      enum: ['','Seminar Hall','Multipurpose Hall','Central Computing Facility'],
+      default: ''
     },
     passwordResetToken:{
       type: String,
