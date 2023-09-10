@@ -24,9 +24,6 @@ exports.verify = async (req, res, next) => {
 
     req.user = await User.findById(verified.id);;
     console.log(req.user);
-    // console.log('User Role:', req.user.role); // Log the user's role for debugging
-
-    // console.log(req.user) for debugging purposes
     next();
   } catch (err) {
     res.status(500).json({
