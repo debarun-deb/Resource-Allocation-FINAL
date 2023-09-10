@@ -23,9 +23,7 @@ const Bcards = (props) => {
           </h1>
           <div className="flex flex-row justify-between items-center">
             <h1 className="text-lg font-semibold p-2">
-              {dayjs(props.books.startDate)
-                .subtract(1, "day")
-                .format("DD MMM YYYY")}
+              {dayjs(props.books.startDate).format("DD MMM YYYY")}
             </h1>
             <FaLongArrowAltRight />
             <h1 className="text-lg font-semibold p-2">

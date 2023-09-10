@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DatePicker } from "antd";
+import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -9,12 +9,13 @@ import complete from "../assets/complete.svg";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-
-const { RangePicker } = DatePicker;
+import { DateRangePicker } from "react-dates";
+import "react-dates/initialize";
+import "react-dates/lib/css/_datepicker.css";
+import "./customDateCell/CustomDateCell.css";
 
 const Modal = ({ visible, onClose, name, books, path, render }) => {
   const user = useSelector((state) => state.User);
-  let [dates, setDate] = useState([]);
   let [eventName, setEventName] = useState("");
   let [eventDetails, setEventDetails] = useState("");
   let [phoneNumber, setPhoneNumber] = useState("");
@@ -27,12 +28,38 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
   let [Sound, setSound] = useState(false);
   let resourceName = name;
   let userEmail = user.email;
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [focusedInput, setFocusedInput] = useState(null);
 
-  console.log(path);
-
-  const disablePastDates = (current) => {
-    return current && current < dayjs().endOf("day");
+  // Callback function for when dates are selected
+  const onDatesChange = ({ startDate, endDate }) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
   };
+
+  // Callback function for when an input is focused
+  const onFocusChange = (focusedInput) => {
+    setFocusedInput(focusedInput);
+  };
+
+  const bookedDates = [
+    { startDate: "2023-09-10", endDate: "2023-09-15" },
+    { startDate: "2023-09-17", endDate: "2023-09-25" },
+    // Add more booked dates as needed
+  ];
+
+  const isDayHighlighted = (date) => {
+    // Convert the date to a string in the 'YYYY-MM-DD' format
+    const dateString = date.format("YYYY-MM-DD");
+
+    // Check if the date falls within the highlighted range
+    return bookedDates.some((range) => {
+      return dateString >= range.startDate && dateString <= range.endDate;
+    });
+  };
+
+  console.log(startDate, endDate);
 
   function changeSound() {
     setSound((val) => !val);
@@ -45,6 +72,20 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
   function changeCleaning() {
     setCleaning((val) => !val);
   }
+
+  const renderCalendarInfo = () => {
+    return (
+      <div className="flex flex-col items-center mt-10 mr-3 max-w-[100%]">
+        <div className="flex flex-row justify-center items-center">
+          <div className="w-[10px] h-[10px] bg-red-600 mr-2"></div>
+          <p className="text-md font-semibold text-red-800">
+            Booked dates, if you <br />
+            still want to book <br /> you can.
+          </p>
+        </div>
+      </div>
+    );
+  };
 
   async function changeStatus() {
     var resourceName = books.resourceName;
@@ -81,14 +122,10 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
     render();
   }
 
-  function filterByDates(values) {
-    const startDate = dayjs(values[0]).add(1, "day").startOf("day");
-    const endDate = dayjs(values[1]).endOf("day");
-    setDate([startDate, endDate]);
-  }
-
   function resetFormState() {
-    setDate([]);
+    setEndDate(null);
+    setStartDate(null);
+    setFocusedInput(null);
     setEventName("");
     setEventDetails("");
     setPhoneNumber("");
@@ -109,7 +146,8 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
       eventDetails === "" ||
       phoneNumber === "" ||
       email === "" ||
-      dates.length !== 2
+      startDate === null ||
+      endDate === null
     ) {
       toast.error("Please fill out all required fields.", {
         position: "top-right",
@@ -158,8 +196,8 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
       studentCoordinatorName: studentCoordinatorName,
       studentEmail: studentEmail,
       registrationNumber: registrationNumber,
-      startDate: dates[0],
-      endDate: dates[1],
+      startDate: startDate._d,
+      endDate: endDate._d,
       Technician: Technician,
       Cleaning: Cleaning,
       Sound: Sound,
@@ -167,7 +205,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
     };
 
     try {
-      await axios.post("http://localhost:8000/request/home",formData);
+      await axios.post("http://localhost:8000/request/home", formData);
       setTimeout(() => onClose(), 900);
     } catch (e) {
       console.log(e);
@@ -186,13 +224,16 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
           e.stopPropagation();
         }}
         className={`bg-white p-4 rounded-3xl ${
-          name !== "book" ? "w-[800px] h-[700px]" : "w-[50%] h-[460px]"
+          name !== "book" ? "w-[58%] h-[700px]" : "w-[50%] h-[460px]"
         } overflow-y-auto border-l-[10px] border-[#2F2E41]`}
       >
         <div className="flex justify-end p-1 float-right">
           <AiOutlineCloseCircle
             className="text-2xl cursor-pointer"
-            onClick={onClose}
+            onClick={() => {
+              onClose();
+              resetFormState();
+            }}
           />
         </div>
         {name !== "book" ? (
@@ -229,21 +270,28 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
                 id=""
                 cols="25"
                 rows="5"
-                className="border-2 border-black rounded-md"
-                placeholder="  Enter text here.."
+                className="border-2 border-black rounded-md resize-none px-3 pt-2" 
+                placeholder="Enter text here.."
                 onChange={(e) => setEventDetails(e.target.value)}
               ></textarea>
             </div>
             <div className="flex flex-row p-2">
               <div className="flex flex-col">
                 <p className="py-2 text-l font-bold">
-                  Date & time <span className="text-red-600">*</span>
+                  Date<span className="text-red-600">*</span>
                 </p>
-                <RangePicker
-                  className="border-black hover:border-gray-500"
-                  format={"DD-MM-YYYY"}
-                  onChange={filterByDates}
-                  disabledDate={disablePastDates}
+                <DateRangePicker
+                  startDate={startDate}
+                  startDateId="start_date_id"
+                  endDate={endDate}
+                  endDateId="end_date_id"
+                  onDatesChange={onDatesChange}
+                  focusedInput={focusedInput}
+                  onFocusChange={onFocusChange}
+                  isOutsideRange={() => false}
+                  isDayHighlighted={isDayHighlighted}
+                  calendarInfoPosition="after"
+                  renderCalendarInfo={renderCalendarInfo} // Optional: Allow all dates to be selected
                 />
               </div>
             </div>
@@ -368,9 +416,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
               </span>
               <span className="mx-2 ml-12 font-bold">:</span>
               <span className="bg-[#2F2E41] p-2 font-rubik font-bold rounded-lg text-gray-200">
-              {dayjs(books.startDate)
-                .subtract(1, "day")
-                .format("DD MMM YYYY")}
+                {dayjs(books.startDate).format("DD MMM YYYY")}
               </span>
             </p>
             <p className="text-[17px] pt-4">
@@ -379,7 +425,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
               </span>
               <span className="mx-2 ml-14 font-bold">:</span>
               <span className="bg-[#2F2E41] p-2 font-rubik font-bold rounded-lg text-gray-200">
-              {dayjs(books.endDate).format("DD MMM YYYY")}
+                {dayjs(books.endDate).format("DD MMM YYYY")}
               </span>
             </p>
             <p className="text-[17px] pt-4 z-[1]">

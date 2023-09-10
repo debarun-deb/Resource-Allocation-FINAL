@@ -1,0 +1,9 @@
+.CalendarDay__highlighted_calendar {
+  background-color: red; /* Change this to your desired highlight color */
+  color: white; /* Text color for booked dates, you can adjust it as needed */
+}
+
+.CalendarDay__highlighted_calendar:hover {
+  background-color: rgb(128, 5, 5); /* Change this to your desired highlight color */
+  color: white; /* Text color for booked dates, you can adjust it as needed */
+}

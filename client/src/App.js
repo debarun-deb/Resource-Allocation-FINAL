@@ -10,14 +10,15 @@ import { useSelector } from "react-redux";
 
 function App() {
   const user = useSelector((state) => state.User);
+  const token = useSelector((state) => state.token);
   let routes;
-
-  if (user) {
+  setTimeout(() => {}, 1000);
+  if (token) {
     if (user.role === "admin") {
       routes = (
         <Routes>
-          <Route path="*" element={<Navigate to="/"/>} />
-          <Route path="/" element={<Navigate to="/Home" replace={true} />}/>
+          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/" element={<Navigate to="/Home" replace={true} />} />
           <Route
             path="/Home"
             element={
@@ -59,8 +60,8 @@ function App() {
     } else if (user.role === "requester") {
       routes = (
         <Routes>
-          <Route path="*" element={<Navigate to="/"/>} />
-          <Route path="/" element={<Navigate to="/Home" replace={true} />}/>
+          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/" element={<Navigate to="/Home" replace={true} />} />
           <Route
             path="/Home"
             element={
@@ -93,8 +94,11 @@ function App() {
     } else if (user.role === "approver") {
       routes = (
         <Routes>
-          <Route path="*" element={<Navigate to="/"/>} />
-          <Route path="/" element={<Navigate to="/Approver" replace={true} />}/>
+          <Route path="*" element={<Navigate to="/" />} />
+          <Route
+            path="/"
+            element={<Navigate to="/Approver" replace={true} />}
+          />
           <Route
             path="/Home"
             element={
