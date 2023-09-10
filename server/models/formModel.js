@@ -20,6 +20,11 @@ const formSchema = new mongoose.Schema({
     enum : ['Submitted', 'Approved', 'Cancelled'],
     default:"Submitted",
   },
+  deptartment:{
+    type:String,
+    enum:['cse','it','me','chem','phy','eee','maths','student'],
+    default:'student'
+  },
   userEmail: {
     type: String,
     required: true,
