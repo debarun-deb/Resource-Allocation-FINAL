@@ -8,15 +8,33 @@ exports.queryResults = async(req,res)=>{
 }
 
 
+
 exports.calendarArrayObj = async(req,res)=>{
-    // let [...formDates]  = await formModel.find({},{startDate:1,endDate:1,_id:0});
-    let [...formDates] = await formModel.aggregate([
-      {  $project: {
-            startDate:{$dateToString:{format:"%Y-%m-%d",date:"$startDate"}},
-            endDate:{$dateToString:{format:"%Y-%m-%d",date:"$endDate"}},
-            _id:0
+    const {user} = req;
+    const {location} = user;
+    console.log(user);
+    try {
+        let [...formDates] = await formModel.aggregate([
+        {
+          $match: {status: "Approved"},
+          $match: {resourceName: {$in: location}},
+        },
+        {  $project: {
+              status:1,
+              location:1,
+              startDate:{$dateToString:{format:"%Y-%m-%d",date:"$startDate"}},
+              endDate:{$dateToString:{format:"%Y-%m-%d",date:"$endDate"}},
+              _id:0,
+          }
         }
-    }
-])
-    res.status(200).json({status:"success",data:formDates});
-}
+      ])
+  
+      res.status(200).json({status:"success",data: formDates});
+  }
+  catch(err){
+    console.log(err);
+  }
+  
+  }
+  
+  
