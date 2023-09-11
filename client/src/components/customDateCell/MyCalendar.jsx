@@ -26,7 +26,7 @@ function MyCalendar() {
         focused={focused}
         onFocusChange={({ focused }) => setFocused(focused)}
         id="calendar" // A unique ID for the SingleDatePicker
-        numberOfMonths={1} // You can adjust the number of months displayed here
+        numberOfMonths={2} // You can adjust the number of months displayed here
         hideKeyboardShortcutsPanel // Hide keyboard shortcuts pane // Remove border
         block 
         noBorder
