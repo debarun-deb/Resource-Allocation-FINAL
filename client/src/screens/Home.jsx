@@ -3,9 +3,21 @@ import Cards from "../components/Cards";
 import wall_post from "../assets/Seminar_hall.jpg";
 import Mult from "../assets/Multipurpose_Hall.jpg";
 import computer from "../assets/ccf.jpg";
-
+import { setBookedDates } from "../state";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const Login = () => {
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    async function getBookedDates() {
+      const res = await axios.get("http://localhost:8000/admin/calendar");
+      dispatch(setBookedDates(res.data.data));
+    }
+    getBookedDates();
+  }, [dispatch]);
+
   return (
     <div className="min-h-screen bg-gray-200 background flex items-center flex-col">
       <div className="flex items-center justify-center bg-white py-8 w-full">
