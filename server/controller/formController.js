@@ -120,7 +120,11 @@ exports.calendarArrayObj = async(req,res)=>{
   // let [...formDates]  = await formModel.find({},{startDate:1,endDate:1,_id:0});
   try {
       let [...formDates] = await formModel.aggregate([
+      {
+        $match: {status: "Approved"},
+      },
       {  $project: {
+            status:1,
             startDate:{$dateToString:{format:"%Y-%m-%d",date:"$startDate"}},
             endDate:{$dateToString:{format:"%Y-%m-%d",date:"$endDate"}},
             _id:0,
