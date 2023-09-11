@@ -16,6 +16,7 @@ import "./customDateCell/CustomDateCell.css";
 
 const Modal = ({ visible, onClose, name, books, path, render }) => {
   const user = useSelector((state) => state.User);
+
   let [eventName, setEventName] = useState("");
   let [eventDetails, setEventDetails] = useState("");
   let [phoneNumber, setPhoneNumber] = useState("");
@@ -31,6 +32,8 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
+  const bookedDates = useSelector((state) => state.bookedDates);
+
 
   // Callback function for when dates are selected
   const onDatesChange = ({ startDate, endDate }) => {
@@ -43,11 +46,6 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
     setFocusedInput(focusedInput);
   };
 
-  const bookedDates = [
-    { startDate: "2023-09-10", endDate: "2023-09-15" },
-    { startDate: "2023-09-17", endDate: "2023-09-25" },
-    // Add more booked dates as needed
-  ];
 
   const isDayHighlighted = (date) => {
     // Convert the date to a string in the 'YYYY-MM-DD' format
@@ -59,7 +57,6 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
     });
   };
 
-  console.log(startDate, endDate);
 
   function changeSound() {
     setSound((val) => !val);
@@ -85,6 +82,11 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
         </div>
       </div>
     );
+  };
+
+  const isOutsideRange = (day) => {
+    // Disable past dates
+    return day.isBefore(new Date());
   };
 
   async function changeStatus() {
@@ -270,7 +272,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
                 id=""
                 cols="25"
                 rows="5"
-                className="border-2 border-black rounded-md resize-none px-3 pt-2" 
+                className="border-2 border-black rounded-md resize-none px-3 pt-2"
                 placeholder="Enter text here.."
                 onChange={(e) => setEventDetails(e.target.value)}
               ></textarea>
@@ -288,7 +290,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
                   onDatesChange={onDatesChange}
                   focusedInput={focusedInput}
                   onFocusChange={onFocusChange}
-                  isOutsideRange={() => false}
+                  isOutsideRange={isOutsideRange}
                   isDayHighlighted={isDayHighlighted}
                   calendarInfoPosition="after"
                   renderCalendarInfo={renderCalendarInfo} // Optional: Allow all dates to be selected

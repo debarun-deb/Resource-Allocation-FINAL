@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   token: null,
   User: null,
+  bookedDates: [],
 };
 
 export const authSlice = createSlice({
@@ -17,8 +18,11 @@ export const authSlice = createSlice({
       state.token = null;
       state.User = null;
     },
+    setBookedDates: (state, action) => {
+      state.bookedDates = action.payload;
+    },
   },
 });
 
-export const { setLogin, setLogout } = authSlice.actions;
+export const { setLogin, setLogout, setBookedDates } = authSlice.actions;
 export default authSlice.reducer;

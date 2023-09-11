@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Bcards from "../components/BCards";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import MyCalendar from "../components/customDateCell/MyCalendar";
 
 function ApprovPage() {
   const [bookings, setBookings] = useState([]);
@@ -35,78 +36,85 @@ function ApprovPage() {
     getData();
   }, []);
   return (
-    <div className="flex items-center flex-col">
-      <div className="bg-[#1F6E8C] flex py-4 mt-4 rounded-xl justify-center items-center w-[20%]">
-        <h1 className="px-3 text-xl font-bold">For Approval</h1>
+    <div>
+      <div className="flex items-center p-3 flex-row justify-start">
+        <MyCalendar />
+        <p className="ml-4 text-lg font-rubik">Dates showing Booked Dates and Available Slots</p>
       </div>
-      <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
-        {loading ? (
-          <h1>Loading...</h1>
-        ) : error ? (
-          <h1>Error</h1>
-        ) : (
-          bookings.map((books) => {
-            if (books.status === "Submitted") {
-              return (
-                <Bcards
-                  books={books}
-                  path={location.pathname}
-                  render={getData}
-                />
-              );
-            } else {
-              return null;
-            }
-          })
-        )}
-      </div>
-      <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-xl justify-center items-center w-[20%]">
-        <h1 className="px-3 text-xl font-bold">Approved Bookings</h1>
-      </div>
-      <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
-        {loading ? (
-          <h1>Loading...</h1>
-        ) : error ? (
-          <h1>Error</h1>
-        ) : (
-          bookings.map((books) => {
-            if (books.status === "Approved") {
-              return (
-                <Bcards
-                  books={books}
-                  path={location.pathname}
-                  render={getData}
-                />
-              );
-            } else {
-              return null;
-            }
-          })
-        )}
-      </div>
-      <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-xl justify-center items-center w-[20%]">
-        <h1 className="px-3 text-xl font-bold">Cancelled Bookings</h1>
-      </div>
-      <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
-        {loading ? (
-          <h1>Loading...</h1>
-        ) : error ? (
-          <h1>Error</h1>
-        ) : (
-          bookings.map((books) => {
-            if (books.status === "Cancelled") {
-              return (
-                <Bcards
-                  books={books}
-                  path={location.pathname}
-                  render={getData}
-                />
-              );
-            } else {
-              return null;
-            }
-          })
-        )}
+      <div className="flex items-center flex-col">
+        <div className="bg-[#1F6E8C] flex py-4 mt-4 rounded-xl justify-center items-center w-[20%]">
+          <h1 className="px-3 text-xl font-bold">For Approval</h1>
+        </div>
+
+        <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
+          {loading ? (
+            <h1>Loading...</h1>
+          ) : error ? (
+            <h1>Error</h1>
+          ) : (
+            bookings.map((books) => {
+              if (books.status === "Submitted") {
+                return (
+                  <Bcards
+                    books={books}
+                    path={location.pathname}
+                    render={getData}
+                  />
+                );
+              } else {
+                return null;
+              }
+            })
+          )}
+        </div>
+        <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-xl justify-center items-center w-[20%]">
+          <h1 className="px-3 text-xl font-bold">Approved Bookings</h1>
+        </div>
+        <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
+          {loading ? (
+            <h1>Loading...</h1>
+          ) : error ? (
+            <h1>Error</h1>
+          ) : (
+            bookings.map((books) => {
+              if (books.status === "Approved") {
+                return (
+                  <Bcards
+                    books={books}
+                    path={location.pathname}
+                    render={getData}
+                  />
+                );
+              } else {
+                return null;
+              }
+            })
+          )}
+        </div>
+        <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-xl justify-center items-center w-[20%]">
+          <h1 className="px-3 text-xl font-bold">Cancelled Bookings</h1>
+        </div>
+        <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
+          {loading ? (
+            <h1>Loading...</h1>
+          ) : error ? (
+            <h1>Error</h1>
+          ) : (
+            bookings.map((books) => {
+              if (books.status === "Cancelled") {
+                return (
+                  <Bcards
+                    books={books}
+                    path={location.pathname}
+                    render={getData}
+                  />
+                );
+              } else {
+                return null;
+              }
+            })
+          )}
+        </div>
       </div>
     </div>
   );
