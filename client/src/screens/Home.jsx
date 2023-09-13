@@ -4,15 +4,24 @@ import wall_post from "../assets/Seminar_hall.jpg";
 import Mult from "../assets/Multipurpose_Hall.jpg";
 import computer from "../assets/ccf.jpg";
 import { setBookedDates } from "../state";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.token);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
   React.useEffect(() => {
     async function getBookedDates() {
-      const res = await axios.get("http://localhost:8000/admin/calendar");
+      const res = await axios.get(
+        "http://localhost:8000/admin/calendar",
+        config
+      );
       dispatch(setBookedDates(res.data.data));
     }
     getBookedDates();
