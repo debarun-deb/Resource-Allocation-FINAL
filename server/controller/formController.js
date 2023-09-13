@@ -91,8 +91,51 @@ exports.updateFormStatus = async (req, res) => {
     await sendEmail(mailOptions);
     res.status(200).json({ status: "Success", data: updateForm });
   } catch (err) {
-    console.error(err);
-    res.status(500).json(err);
+    console.error(err)
+    res.status(500).json(err)
   }
-};
+} 
+
+
+exports.calendarArrayObj = async(req,res)=>{
+  // let [...formDates]  = await formModel.find({},{startDate:1,endDate:1,_id:0});
+  try {
+      let [...formDates] = await formModel.aggregate([
+      {  $project: {
+            startDate:{$dateToString:{format:"%Y-%m-%d",date:"$startDate"}},
+            endDate:{$dateToString:{format:"%Y-%m-%d",date:"$endDate"}},
+            _id:0,
+        }
+      }
+    ])
+
+    res.status(200).json({status:"success",data: formDates});
+}
+catch(err){
+  console.log(err);
+}
+
+}
+
+
+
+exports.calendarArrayObj = async(req,res)=>{
+  // let [...formDates]  = await formModel.find({},{startDate:1,endDate:1,_id:0});
+  try {
+      let [...formDates] = await formModel.aggregate([
+      {  $project: {
+            startDate:{$dateToString:{format:"%Y-%m-%d",date:"$startDate"}},
+            endDate:{$dateToString:{format:"%Y-%m-%d",date:"$endDate"}},
+            _id:0,
+        }
+      }
+    ])
+
+    res.status(200).json({status:"success",data: formDates});
+}
+catch(err){
+  console.log(err);
+}
+
+}
 
