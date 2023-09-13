@@ -48,6 +48,7 @@ exports.login = async (req, res) => {
   }
 };
 
+
 exports.forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
