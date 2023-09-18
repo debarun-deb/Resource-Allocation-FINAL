@@ -1,0 +1,44 @@
+"filename", "language", "XML", "JavaScript", "JavaScript JSX", "CSS", "JSON", "HTML", "Markdown", "comment", "blank", "total"
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/README.md", "Markdown", 0, 0, 0, 0, 0, 0, 38, 0, 33, 71
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/package-lock.json", "JSON", 0, 0, 0, 0, 19893, 0, 0, 0, 1, 19894
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/package.json", "JSON", 0, 0, 0, 0, 67, 0, 0, 0, 1, 68
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/public/index.html", "HTML", 0, 0, 0, 0, 0, 23, 0, 24, 1, 48
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/App.js", "JavaScript", 0, 150, 0, 0, 0, 0, 0, 0, 3, 153
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/assets/complete.svg", "XML", 1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/assets/resource.svg", "XML", 1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/assets/undraw_progressive_app_m-9-ms.svg", "XML", 1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/assets/undraw_wall_post_re_y78d.svg", "XML", 1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/components/BCards.jsx", "JavaScript JSX", 0, 0, 50, 0, 0, 0, 0, 0, 3, 53
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/components/Cards.jsx", "JavaScript JSX", 0, 0, 30, 0, 0, 0, 0, 0, 3, 33
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/components/Modal.jsx", "JavaScript JSX", 0, 0, 463, 0, 0, 0, 0, 5, 25, 493
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/components/Navbar.jsx", "JavaScript JSX", 0, 0, 74, 0, 0, 0, 0, 3, 6, 83
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/components/customDateCell/CustomDateCell.css", "CSS", 0, 0, 0, 16, 0, 0, 0, 0, 3, 19
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/components/customDateCell/MyCalendar.jsx", "JavaScript JSX", 0, 0, 33, 0, 0, 0, 0, 2, 5, 40
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/index.css", "CSS", 0, 0, 0, 3, 0, 0, 0, 0, 3, 6
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/index.js", "JavaScript", 0, 38, 0, 0, 0, 0, 0, 0, 2, 40
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/screens/ApprovPage.jsx", "JavaScript JSX", 0, 0, 119, 0, 0, 0, 0, 0, 5, 124
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/screens/Bookings.jsx", "JavaScript JSX", 0, 0, 88, 0, 0, 0, 0, 0, 3, 91
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/screens/Cancellation.jsx", "JavaScript JSX", 0, 0, 61, 0, 0, 0, 0, 0, 3, 64
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/screens/Home.css", "CSS", 0, 0, 0, 8, 0, 0, 0, 0, 1, 9
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/screens/Home.jsx", "JavaScript JSX", 0, 0, 54, 0, 0, 0, 0, 0, 7, 61
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/screens/Login2.jsx", "JavaScript JSX", 0, 0, 108, 0, 0, 0, 0, 3, 8, 119
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/src/state/index.js", "JavaScript", 0, 25, 0, 0, 0, 0, 0, 0, 4, 29
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/client/tailwind.config.js", "JavaScript", 0, 11, 0, 0, 0, 0, 0, 1, 1, 13
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/controller/ApproveController.js", "JavaScript", 0, 35, 0, 0, 0, 0, 0, 4, 8, 47
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/controller/adminController.js", "JavaScript", 0, 33, 0, 0, 0, 0, 0, 0, 4, 37
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/controller/formController.js", "JavaScript", 0, 91, 0, 0, 0, 0, 0, 1, 8, 100
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/controller/loginController.js", "JavaScript", 0, 95, 0, 0, 0, 0, 0, 7, 17, 119
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/middleware/verify.js", "JavaScript", 0, 29, 0, 0, 0, 0, 0, 3, 3, 35
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/models/LoginModel.js", "JavaScript", 0, 54, 0, 0, 0, 0, 0, 0, 3, 57
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/models/formModel.js", "JavaScript", 0, 95, 0, 0, 0, 0, 0, 0, 4, 99
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/package-lock.json", "JSON", 0, 0, 0, 0, 2025, 0, 0, 0, 1, 2026
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/package.json", "JSON", 0, 0, 0, 0, 27, 0, 0, 0, 1, 28
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/router/adminRoutes.js", "JavaScript", 0, 7, 0, 0, 0, 0, 0, 0, 2, 9
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/router/approverRoutes.js", "JavaScript", 0, 6, 0, 0, 0, 0, 0, 0, 4, 10
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/router/requesterRoutes.js", "JavaScript", 0, 11, 0, 0, 0, 0, 0, 1, 7, 19
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/router/userRoutes.js", "JavaScript", 0, 9, 0, 0, 0, 0, 0, 0, 1, 10
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/server.js", "JavaScript", 0, 35, 0, 0, 0, 0, 0, 0, 7, 42
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/utilities/email_sender.js", "JavaScript", 0, 8, 0, 0, 0, 0, 0, 2, 4, 14
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/utilities/email_template.js", "JavaScript", 0, 584, 0, 0, 0, 0, 0, 0, 165, 749
+"/Users/debarundeb/dev/Web Devlopement/Projects/Resource-Allocation-FINAL/server/utilities/jwtutils.js", "JavaScript", 0, 21, 0, 0, 0, 0, 0, 0, 4, 25
+"Total", "-", 4, 1337, 1080, 27, 22012, 23, 38, 56, 364, 24941
