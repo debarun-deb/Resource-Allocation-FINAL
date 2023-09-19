@@ -79,7 +79,6 @@ exports.updateFormStatus = async (req, res) => {
         .json({ status: "failed", message: "Form not found" });
     }
 
-    // Send an email to the user whose form status has been changed
     const userEmail = updatedForm.email;
     const startDate = updatedForm.startDate.toLocaleDateString();
     const endDate = updatedForm.endDate.toLocaleDateString();
@@ -93,7 +92,6 @@ exports.updateFormStatus = async (req, res) => {
 
     await sendEmail(userMailOptions);
 
-    // Send emails to custodians of the resource if status is Approved or Cancelled
     if (status === "Approved" || status === "Cancelled") {
       const resourceCustodianEmail = custodians[updatedForm.resourceName];
 
