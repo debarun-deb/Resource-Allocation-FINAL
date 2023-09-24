@@ -42,9 +42,7 @@ const Analytics = () => {
           }}
           className="border-2 border-black border-opacity-50 rounded-lg p-2"
         >
-          <option value="" disabled selected>
-            Resource Name
-          </option>
+          <option value="">Resource Name</option>
           <option value="Multipurpose Hall">Multipurpose Hall</option>
           <option value="Seminar Hall">Seminar Hall</option>
           <option value="Central Computing Facility">
@@ -67,9 +65,7 @@ const Analytics = () => {
           }}
           className="border-2 border-black border-opacity-50 rounded-lg p-2"
         >
-          <option value="" disabled selected>
-            Status
-          </option>
+          <option value="">Status</option>
           <option value="Approved">Approved</option>
           <option value="Cancelled">Cancelled</option>
           <option value="Submitted">Submitted</option>
@@ -78,7 +74,7 @@ const Analytics = () => {
           onClick={getAnalytics}
           className="border-2 border-black rounded-xl px-2 border-opacity-50 bg-[#1657b8] text-white transform transition duration-200 hover:scale-110"
         >
-          Get Ananlytcis
+          Get Ananlytics
         </button>
 
         {/* <div className="h-[400px]">
