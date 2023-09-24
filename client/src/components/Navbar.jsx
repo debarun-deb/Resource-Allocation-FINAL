@@ -68,20 +68,28 @@ const Navbar = () => {
           ) : (
             <NavItem name="Home" icon={<Home size={20} />} path="/Home" />
           )}
+          {user.role !== "admin" ? (
+            <NavItem
+              name="Bookings"
+              icon={<Book size={20} />}
+              path="/Bookings"
+            />
+          ) : null}
 
-          <NavItem name="Bookings" icon={<Book size={20} />} path="/Bookings" />
-          {user.role === "admin" || user.role === "approver" ? (
+          {user.role === "approver" ? (
             <NavItem
               name="Approver"
               icon={<Book size={20} />}
               path="/Approver"
             />
           ) : null}
-          <NavItem
-            name="Cancellations"
-            icon={<XCircle size={20} />}
-            path="/Cancellation"
-          />
+          {user.role !== "admin" ? (
+            <NavItem
+              name="Cancellations"
+              icon={<XCircle size={20} />}
+              path="/Cancellation"
+            />
+          ) : null}
         </ul>
         <div className="flex items-center space-x-4 ml-2">
           {/* Place the logo for the logout button here */}
