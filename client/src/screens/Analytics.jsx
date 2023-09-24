@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Line } from "react-chartjs-2";
+import LineChart from "../components/LineChart/LineChart";
 
 const Analytics = () => {
   const [resource, setResource] = useState("");
@@ -30,7 +30,9 @@ const Analytics = () => {
 
   return (
     <div>
-      <h1 className="font-rubik text-xl mx-5 my-3">Select the resource:</h1>
+      <h1 className="font-rubik text-xl mx-5 my-3">
+        Select the respective field to display Graph:
+      </h1>
       <div className="flex flex-row gap-5 mx-5 my-3">
         <select
           name=""
@@ -79,7 +81,11 @@ const Analytics = () => {
           Get Ananlytcis
         </button>
 
-        {/* <Line /> */}
+        {/* <div className="h-[400px]">
+          {Object.keys(dataset).length === 0 ? null : (
+            <LineChart chartData={dataset} />
+          )}
+        </div> */}
       </div>
     </div>
   );
