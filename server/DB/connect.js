@@ -1,12 +1,16 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const {dataTransfer} = require("../utilities/expiredTransfer");
+const { dataTransfer } = require("../utilities/expiredTransfer");
+const cron = require("node-cron");
 
 dotenv.config();
 const connect = async () => {
   try {
     await mongoose.connect(process.env.MONGO);
-    await dataTransfer();
+    cron.schedule("0 0 * * *", async () => {
+      console.log("Running Cron Job");
+      await dataTransfer();
+    });
   } catch (error) {
     throw error;
   }

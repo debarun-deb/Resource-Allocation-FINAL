@@ -7,10 +7,10 @@ exports.dataTransfer = async (req, res) => {
     const query = {
       $or: [
         {
-          $and: [{ startDate: { $lte: current } }, { status: "Submitted" }],
+          $and: [{ startDate: { $lte: current } },{ status: { $in: ["Submitted", "Cancelled"] } }],
         },
         {
-          $and: [{ endDate: { $gte: current } }, { status: "Approved" }],
+          $and: [{ endDate: { $lte: current } }, { status: "Approved" }],
         },
       ],
     };
