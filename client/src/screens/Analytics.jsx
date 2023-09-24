@@ -3,6 +3,8 @@ import React, { useState } from "react";
 const Analytics = () => {
   const [resource, setResource] = useState("");
 
+
+
   return (
     <div>
       <h1>Select the resource:</h1>
