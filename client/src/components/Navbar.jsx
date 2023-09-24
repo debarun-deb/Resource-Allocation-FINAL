@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Home, XCircle, Book, LogOut } from "react-feather";
 import { Link } from "react-router-dom";
+import { BsGraphUpArrow } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { setLogout } from "../state";
 const Navbar = () => {
@@ -55,7 +56,7 @@ const Navbar = () => {
         {/* This element takes up remaining space */}
         <ul className="flex space-x-3">
           {user.role === "admin" || user.role === "approver" ? (
-            <NavItem name="Admin" icon={<Book size={20} />} path="/Admin" />
+            <NavItem name="Analytics" icon={<BsGraphUpArrow size={20} />} path="/Admin" />
           ) : (
             <NavItem name="Home" icon={<Home size={20} />} path="/Home" />
           )}
