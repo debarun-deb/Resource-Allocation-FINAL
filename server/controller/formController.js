@@ -87,7 +87,14 @@ exports.updateFormStatus = async (req, res) => {
       to: userEmail,
       from: "resourcemsg@outlook.com",
       subject: "Form Status Update",
-      text: `Your form with FormID: ${updatedForm.formID} has been updated to: ${status}. Start Date: ${startDate}, End Date: ${endDate}`,
+      text: `Dear Requester,
+
+      This is to inform you that a form with Form ID: ${updatedForm.formID} for the resource named ${updatedForm.resourceName} has undergone a status change. The status has been updated to "${status}" for the period from ${startDate} to ${endDate}.
+  
+      If you have any questions or need further assistance, please feel free to reach out to us at resourcemsg@gmail.com.
+  
+      Sincerely,
+      Resource Management System`,
     };
 
     await sendEmail(userMailOptions);
@@ -100,7 +107,14 @@ exports.updateFormStatus = async (req, res) => {
           to: resourceCustodianEmail,
           from: "resourcemsg@outlook.com",
           subject: "Form Status Update",
-          text: `A form with FormID: ${updatedForm.formID} for resource ${updatedForm.resourceName} has been "${status}". From Start Date: ${startDate} to End Date: ${endDate}`,
+          text: `Dear Resource Custodian,
+
+          This is to inform you that a form with Form ID: ${updatedForm.formID} for the resource named ${updatedForm.resourceName} has undergone a status change. The status has been updated to "${status}" for the period from ${startDate} to ${endDate}.
+      
+          If you have any questions or need further assistance, please feel free to reach out to us at resourcemsg@gmail.com.
+      
+          Sincerely,
+          Resource Management System`,
         };
 
         await sendEmail(custodianMailOptions);
@@ -113,4 +127,3 @@ exports.updateFormStatus = async (req, res) => {
     res.status(500).json(err);
   }
 };
-

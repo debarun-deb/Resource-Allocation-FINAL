@@ -36,8 +36,8 @@ exports.login = async (req, res) => {
         message: "Incorrect email or password",
         data: user
       });
-    }
-    console.log(user); // Log the user object for debugging purposes
+    }; 
+    console.log(`..............User ${user.email} logged in............`)
     SendToken(user, 200, res);
   } catch (err) {
     // If an error occurs during the login process

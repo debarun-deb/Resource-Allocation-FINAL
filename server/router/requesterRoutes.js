@@ -5,14 +5,7 @@ const { verify } = require("../middleware/verify");
 
 router.route("/home").post(formControl.forms);
 router.route("/requesterForms").get(verify, formControl.getRequesterForms);
-
-
-router.route('/home').post(formControl.forms)
-router.route('/requesterForms').get(verify,formControl.getRequesterForms)
-
-
-
-router.route('/home/:id').delete(formControl.deleteForm)
-router.route('/updateStatus').patch(formControl.updateFormStatus) 
+router.route("/home/:id").delete(formControl.deleteForm);
+router.route("/updateStatus").patch(formControl.updateFormStatus);
 
 module.exports = router;
