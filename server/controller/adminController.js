@@ -1,3 +1,4 @@
+const { json } = require("express");
 const formModel = require("../models/formModel.js");
 const batchSize = 50;
 
@@ -49,15 +50,26 @@ catch(err){
 }
 }
 
-
-
 exports.getAllRequests = async (req, res) => {
 
   let startDate = new Date(req.body.startDate);
   let resName = req.body.resourceName;
+
+  var resDateList = {
+    "Seminar Hall":[],
+    "Multipurpose Hall":[],
+    "Central Computing Facility":[]
+  };
+
   try{
-    let results = await formModel.find({startDate:{$gt: startDate},resourceName:resName}, {_id:0,startDate:1});
-    if (results.length > 0) res.status(201).json({ status: "success", data: results });
+    let results = await formModel.find({}, {_id:0,startDate:1,resourceName:1});
+    console.log(results);
+    results.forEach((request)=>{
+      let r = request.resourceName;
+      resDateList[r].push(request.startDate);
+    })
+
+    if (results.length > 0) res.status(201).json({ status: "success", data: resDateList });
     else res.status(404).json({ status: "no matching documents", data:[]});
 }
 catch(err){
