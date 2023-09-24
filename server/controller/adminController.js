@@ -55,12 +55,19 @@ exports.getAllRequests = async (req, res) => {
   let resName = req.body.resourceName;
   let stat = req.body.status;
   let userEm = req.body.email;
+  let qObj= {}
+  if(resName || stat || userEm){
+    if(resName) qObj.resourceName = resName;
+    if(stat) qObj.status = stat;
+    if(userEm) qObj.userEmail = userEm; 
+  }
+  
   console.log(resName,stat,userEm);
   var monthCountList = [0,0,0,0,0,0,0,0,0,0,0,0];
 
 
   try{
-    let results = await formModel.find({resourceName: resName,status:stat,userEmail:userEm}, {_id:0,startDate:1});
+    let results = await formModel.find(qObj, {_id:0,startDate:1});
     results.forEach((request)=>{
       monthCountList[request.startDate.getMonth()]++;
     })
