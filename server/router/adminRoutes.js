@@ -7,7 +7,7 @@ router.route('/stats').get(admin.queryResults);
 router.route('/calendar').get(verify,admin.calendarArrayObj);
 
 router.route('/startDates').post(admin.getStartDates);
-router.route('/getResources').get(admin.getAllRequests);
+router.route('/getResources').post(admin.getAllRequests);
 
 
 

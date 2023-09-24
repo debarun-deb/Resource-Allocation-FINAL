@@ -52,19 +52,20 @@ catch(err){
 
 exports.getAllRequests = async (req, res) => {
   let resName = req.body.resourceName;
-  let status = req.body.status;
-  let userEmail = req.body.email;
+  let stat = req.body.status;
+  let userEm = req.body.email;
+  console.log(resName,stat,userEm);
   var monthCountList = [0,0,0,0,0,0,0,0,0,0,0,0];
   var labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
   try{
-    let results = await formModel.find({resourceName: resName, status: status, userEmail: userEmail}, {_id:0,startDate:1});
+    let results = await formModel.find({resourceName: resName,status:stat,userEmail:userEm}, {_id:0,startDate:1});
     results.forEach((request)=>{
       monthCountList[request.startDate.getMonth()]++;
     })
 
-    if (results.length > 0) res.status(201).json({ status: "success", data: monthCountList,labels});
-    else res.status(204).json({ status: "no matching documents", data:[]});
+    if (results.length > 0) res.status(201).json({ status: "success", data:{monthCountList,labels}});
+    else res.status(200).json({ status: "no matching documents", data:[]});
 }
 catch(err){
   res.status(404).json({ status: "fail", data: err.message});
