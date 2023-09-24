@@ -1,3 +1,4 @@
+const { json } = require("express");
 const formModel = require("../models/formModel.js");
 const batchSize = 50;
 
@@ -49,16 +50,19 @@ catch(err){
 }
 }
 
-
-
 exports.getAllRequests = async (req, res) => {
-
-  let startDate = new Date(req.body.startDate);
   let resName = req.body.resourceName;
+  var monthCountList = [0,0,0,0,0,0,0,0,0,0,0,0];
+  var labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
   try{
-    let results = await formModel.find({startDate:{$gt: startDate},resourceName:resName}, {_id:0,startDate:1});
-    if (results.length > 0) res.status(201).json({ status: "success", data: results });
-    else res.status(404).json({ status: "no matching documents", data:[]});
+    let results = await formModel.find({}, {_id:0,startDate:1});
+    results.forEach((request)=>{
+      monthCountList[request.startDate.getMonth()]++;
+    })
+
+    if (results.length > 0) res.status(201).json({ status: "success", data: monthCountList,labels});
+    else res.status(204).json({ status: "no matching documents", data:[]});
 }
 catch(err){
   res.status(404).json({ status: "fail", data: err.message});
@@ -68,44 +72,3 @@ catch(err){
 
 
 
-//Testing required for below 3
-function deleteBatch(collection,documents){
-  var bulkDelete = collection.initializeUnorderedBuldOp();
-  documents.forEach(function(doc){
-    bulkDelete.findOneAndDelete({_id: doc._id});
-  })
-  bulkRemove.execute();
-}
-
-function insertBatch(collection,documents){
-  var bulkInsert = collection.initializeUnorderedBuldOp();
-  var idsToTransfer = [];
-  var id;
-
-  documents.forEach(function(doc){
-    id = doc._id;
-    bulkInsert.find({_id:id}).upsert().replaceOne(doc);
-    idsToTransfer.execute();
-    return idsToTransfer;
-  })
-}
-
-
-exports.transferDocuments = async () => {
-  filter = {startDate:{$lt:Date.now()}}
-  const targetCollection = "";
-  const sourceCollection = "";
-  console.log("Moving " + sourceCollection.find(filter).count() + " documents from " + sourceCollection + " to " + targetCollection);
-  var count;
-  while ((count = sourceCollection.find(filter).count()) > 0) {
-    console.log(count + " documents remaining");
-    sourceDocs = sourceCollection.find(filter).limit(batchSize);
-    idsOfCopiedDocs = insertBatch(targetCollection, sourceDocs);
-
-    targetDocs = targetCollection.find({_id: {$in: idsOfCopiedDocs}});
-    deleteBatch(sourceCollection, targetDocs);
-  }
-  console.log("Transfer Complete");
-
-
-}
