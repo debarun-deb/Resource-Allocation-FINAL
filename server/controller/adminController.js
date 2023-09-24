@@ -1,6 +1,7 @@
 const { json } = require("express");
 const formModel = require("../models/formModel.js");
-const batchSize = 50;
+var labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
 
 exports.queryResults = async (req, res) => {
   let qObj = req.query;
@@ -56,7 +57,7 @@ exports.getAllRequests = async (req, res) => {
   let userEm = req.body.email;
   console.log(resName,stat,userEm);
   var monthCountList = [0,0,0,0,0,0,0,0,0,0,0,0];
-  var labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
 
   try{
     let results = await formModel.find({resourceName: resName,status:stat,userEmail:userEm}, {_id:0,startDate:1});
