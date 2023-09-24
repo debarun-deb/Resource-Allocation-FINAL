@@ -7,7 +7,7 @@ const requestRoutes = require("./router/requesterRoutes");
 const approverRoutes = require("./router/approverRoutes");
 const adminRoutes = require("./router/adminRoutes");
 const bodyParser = require("body-parser");
-// const morgan = require("morgan");
+const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const app = express();
 
