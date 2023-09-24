@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Line } from 'react-chartjs-2';
+import { Line } from "react-chartjs-2";
 
 const Analytics = () => {
   const [resource, setResource] = useState("");
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("");
 
   const getAnalytics = async () => {
     try {
       const body = {
         resourceName: resource,
+        email: email,
+        status: status,
       };
       const res = await axios.post(
-        "http://localhost:8000/admin/startDates",
+        "http://localhost:8000/admin/getResources",
         body
       );
       console.log(res);
@@ -36,15 +40,46 @@ const Analytics = () => {
           }}
           className="border-2 border-black border-opacity-50 rounded-lg p-2"
         >
+          <option value="" disabled selected>
+            Resource Name
+          </option>
           <option value="Multipurpose Hall">Multipurpose Hall</option>
           <option value="Seminar Hall">Seminar Hall</option>
           <option value="Central Computing Facility">
             Central Computing Facility
           </option>
         </select>
-        <button onClick={getAnalytics} className="border-2 border-black rounded-xl px-2 border-opacity-50 bg-[#1657b8] text-white transform transition duration-200 hover:scale-110">Get Ananlytcis</button>
+        <input
+          type="text"
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          placeholder="Email"
+          className="border-2 border-black border-opacity-50 rounded-lg p-2"
+        />
+        <select
+          name=""
+          id=""
+          onChange={(e) => {
+            setStatus(e.target.value);
+          }}
+          className="border-2 border-black border-opacity-50 rounded-lg p-2"
+        >
+          <option value="" disabled selected>
+            Status
+          </option>
+          <option value="Approved">Approved</option>
+          <option value="Cancelled">Cancelled</option>
+          <option value="Submitted">Submitted</option>
+        </select>
+        <button
+          onClick={getAnalytics}
+          className="border-2 border-black rounded-xl px-2 border-opacity-50 bg-[#1657b8] text-white transform transition duration-200 hover:scale-110"
+        >
+          Get Ananlytcis
+        </button>
 
-        <Line />
+        {/* <Line /> */}
       </div>
     </div>
   );
