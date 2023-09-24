@@ -11,7 +11,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const app = express();
 
-// app.use(morgan("dev"));
+app.use(morgan("tiny"));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,7 +22,6 @@ app.use("/user", userRoutes);
 app.use("/request", requestRoutes);
 app.use("/approver", approverRoutes);
 app.use("/admin", adminRoutes);
-
 
 dotenv.config();
 const connect = async () => {
@@ -35,6 +34,7 @@ const connect = async () => {
 mongoose.connection.on("disconnect", () => {
   console.log("Disconnect from Database");
 });
+
 
 app.listen(8000, () => {
   connect();
