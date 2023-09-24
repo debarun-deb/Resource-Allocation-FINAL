@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import LineChart from "../components/LineChart/LineChart";
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
 
 const Analytics = () => {
   const [resource, setResource] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
+  const [dataset, setDataset] = useState({});
 
   const getAnalytics = async () => {
     try {
@@ -18,15 +20,26 @@ const Analytics = () => {
         "http://localhost:8000/admin/getResources",
         body
       );
-      console.log(res);
+      setDataset(res.data.data);
+      console.log(res.data.data);
     } catch (err) {
       console.log(err);
     }
   };
 
+  React.useEffect(() => {
+    getAnalytics();
+  }, [resource, email, status]);
+
   const changeResource = (e) => {
     setResource(e.target.value);
   };
+
+//   const options = {
+//     responsive: true, // This makes the chart responsive to the parent container
+//     maintainAspectRatio: false, // Set this to false to allow custom width and height
+//     // Set the desired width and height
+//   };
 
   return (
     <div>
@@ -76,13 +89,12 @@ const Analytics = () => {
         >
           Get Ananlytics
         </button>
-
-        {/* <div className="h-[400px]">
-          {Object.keys(dataset).length === 0 ? null : (
-            <LineChart chartData={dataset} />
-          )}
-        </div> */}
       </div>
+      <div className="max-w-[600px] max-h-[600px]">
+          {Object.keys(dataset).length === 0 ? null : (
+            <Line data={dataset} />
+          )}
+        </div>
     </div>
   );
 };

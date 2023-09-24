@@ -7,7 +7,11 @@ import { setLogout } from "../state";
 const Navbar = () => {
   const user = useSelector((state) => state.User);
   const [activePage, setActivePage] = useState(
-    user.role === "approver" ? "Approver" : "Home"
+    user.role === "approver"
+      ? "Approver"
+      : "Home" || user.role === "admin"
+      ? "Analytics"
+      : "Home"
   );
   const dispatch = useDispatch();
   const handlePageClick = (pageName) => {
@@ -55,8 +59,12 @@ const Navbar = () => {
         <div className="flex-grow" />{" "}
         {/* This element takes up remaining space */}
         <ul className="flex space-x-3">
-          {user.role === "admin" || user.role === "approver" ? (
-            <NavItem name="Analytics" icon={<BsGraphUpArrow size={20} />} path="/Admin" />
+          {user.role === "admin" ? (
+            <NavItem
+              name="Analytics"
+              icon={<BsGraphUpArrow size={20} />}
+              path="/Admin"
+            />
           ) : (
             <NavItem name="Home" icon={<Home size={20} />} path="/Home" />
           )}

@@ -136,15 +136,6 @@ function App() {
               </>
             }
           />
-          <Route
-            path="/Admin"
-            element={
-              <>
-                <Navbar />
-                <Analytics />
-              </>
-            }
-          />
         </Routes>
       );
     }
