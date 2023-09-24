@@ -7,23 +7,22 @@ const dater = () => {
   let a = d.toString();
   return a;
 };
-
-const formSchema = new mongoose.Schema({
+const expirySchema = new mongoose.Schema({
   formID: {
     type: String,
     required: true,
     unique: true,
     default: () => uuidv4(),
   },
-  status:{
-    type:String,
-    enum : ['Submitted', 'Approved', 'Cancelled'],
-    default:"Submitted",
+  status: {
+    type: String,
+    enum: ["Submitted", "Approved", "Cancelled"],
+    default: "Submitted",
   },
-  deptartment:{
-    type:String,
-    enum:['cse','it','me','chem','phy','eee','maths','student'],
-    default:'student'
+  deptartment: {
+    type: String,
+    enum: ["cse", "it", "me", "chem", "phy", "eee", "maths", "student"],
+    default: "student",
   },
   userEmail: {
     type: String,
@@ -54,12 +53,12 @@ const formSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
     validate: {
-      validator: function(v) {
+      validator: function (v) {
         return /^[6-9]\d{9}$/.test(v);
       },
-      message: '{VALUE} is not a valid Indian phone number!'
+      message: "{VALUE} is not a valid Indian phone number!",
     },
-    required: [true, 'User phone number required']
+    required: [true, "User phone number required"],
   },
   studentCoordinator: {
     type: String,
@@ -67,7 +66,7 @@ const formSchema = new mongoose.Schema({
   registrationNumber: {
     type: Number,
   },
-  studentEmail:{
+  studentEmail: {
     type: String,
   },
   startDate: {
@@ -93,8 +92,6 @@ const formSchema = new mongoose.Schema({
     default: true,
   },
 });
+const Expired = mongoose.model("Expired", expirySchema);
 
-const form = mongoose.model("forms", formSchema);
-
-
-module.exports = form;
+module.exports = Expired;

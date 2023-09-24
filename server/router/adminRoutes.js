@@ -9,7 +9,6 @@ router.route('/calendar').get(verify,admin.calendarArrayObj);
 router.route('/startDates').post(admin.getStartDates);
 router.route('/getResources').get(admin.getAllRequests);
 
-//Testing required
-router.route('/transfer').get(admin.transferDocuments);
+
 
 module.exports = router
