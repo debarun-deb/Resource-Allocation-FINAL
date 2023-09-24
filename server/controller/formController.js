@@ -1,6 +1,5 @@
 const form = require("./../models/formModel");
 const sendEmail = require("../utilities/email_sender");
-const formModel = require("../models/formModel.js");
 const email_Template = require("../utilities/email_template");
 const custodians = {
   "Seminar Hall": "jaters1200@gmail.com",
@@ -58,84 +57,59 @@ exports.deleteForm = async (req, res) => {
 
 exports.updateFormStatus = async (req, res) => {
   try {
-    const { id, status, resourceName } = req.body;
-    console.log(req.body);
+    const { id, status } = req.body;
+    console.log(id, status);
+
     if (!id || !status) {
       return res
         .status(400)
         .json({ status: "failed", message: "Parameter missing" });
     }
-    const updateForm = await form.findByIdAndUpdate(
+
+    // Find the form by ID and update its status
+    const updatedForm = await form.findByIdAndUpdate(
       id,
       { status },
       { new: true }
     );
-    if (!updateForm) {
+
+    if (!updatedForm) {
       return res
         .status(400)
-        .json({ status: "failed", message: "form not found" });
+        .json({ status: "failed", message: "Form not found" });
     }
 
-    sender = [updateForm.email];
+    const userEmail = updatedForm.email;
+    const startDate = updatedForm.startDate.toLocaleDateString();
+    const endDate = updatedForm.endDate.toLocaleDateString();
 
-    status === "Submitted" && updateForm.status === "Cancelled"
-      ? true
-      : sender.push(custodians[updateForm.resourceName]);
-    //  const emailhtml = email_Template(updateForm)
-    const mailOptions = {
-      to: sender,
+    const userMailOptions = {
+      to: userEmail,
       from: "resourcemsg@outlook.com",
       subject: "Form Status Update",
-      text: `The form with FormID: ${formID} has been: ${status}`,
+      text: `Your form with FormID: ${updatedForm.formID} has been updated to: ${status}. Start Date: ${startDate}, End Date: ${endDate}`,
     };
-    await sendEmail(mailOptions);
-    res.status(200).json({ status: "Success", data: updateForm });
+
+    await sendEmail(userMailOptions);
+
+    if (status === "Approved" || status === "Cancelled") {
+      const resourceCustodianEmail = custodians[updatedForm.resourceName];
+
+      if (resourceCustodianEmail) {
+        const custodianMailOptions = {
+          to: resourceCustodianEmail,
+          from: "resourcemsg@outlook.com",
+          subject: "Form Status Update",
+          text: `A form with FormID: ${updatedForm.formID} for resource ${updatedForm.resourceName} has been "${status}". From Start Date: ${startDate} to End Date: ${endDate}`,
+        };
+
+        await sendEmail(custodianMailOptions);
+      }
+    }
+
+    res.status(200).json({ status: "Success", data: updatedForm });
   } catch (err) {
-    console.error(err)
-    res.status(500).json(err)
+    console.error(err);
+    res.status(500).json(err);
   }
-} 
-
-
-exports.calendarArrayObj = async(req,res)=>{
-  // let [...formDates]  = await formModel.find({},{startDate:1,endDate:1,_id:0});
-  try {
-      let [...formDates] = await formModel.aggregate([
-      {  $project: {
-            startDate:{$dateToString:{format:"%Y-%m-%d",date:"$startDate"}},
-            endDate:{$dateToString:{format:"%Y-%m-%d",date:"$endDate"}},
-            _id:0,
-        }
-      }
-    ])
-
-    res.status(200).json({status:"success",data: formDates});
-}
-catch(err){
-  console.log(err);
-}
-
-}
-
-
-
-exports.calendarArrayObj = async(req,res)=>{
-  // let [...formDates]  = await formModel.find({},{startDate:1,endDate:1,_id:0});
-  try {
-      let [...formDates] = await formModel.aggregate([
-      {  $project: {
-            startDate:{$dateToString:{format:"%Y-%m-%d",date:"$startDate"}},
-            endDate:{$dateToString:{format:"%Y-%m-%d",date:"$endDate"}},
-            _id:0,
-        }
-      }
-    ])
-
-    res.status(200).json({status:"success",data: formDates});
-}
-catch(err){
-  console.log(err);
-}
-
-}
-
+};

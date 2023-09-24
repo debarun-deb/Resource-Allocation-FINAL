@@ -226,7 +226,7 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
           e.stopPropagation();
         }}
         className={`bg-white p-4 rounded-3xl ${
-          name !== "book" ? "w-[58%] h-[700px]" : "w-[50%] h-[460px]"
+          name !== "book" ? "w-[58%] h-[700px]" : "w-[50%] h-[500px]"
         } overflow-y-auto border-l-[10px] border-[#2F2E41]`}
       >
         <div className="flex justify-end p-1 float-right">
@@ -401,6 +401,15 @@ const Modal = ({ visible, onClose, name, books, path, render }) => {
               <span className="mx-2 ml-7 font-bold">:</span>
               <span className="bg-[#2F2E41] p-2 font-rubik font-bold rounded-lg text-gray-200">
                 {books.eventDetails}
+              </span>
+            </p>
+            <p className="text-[17px] pt-4">
+              <span className="bg-[#F79C0C] p-2 font-rubik font-bold rounded-lg">
+                Booked By
+              </span>
+              <span className="mx-2 ml-12 font-bold">:</span>
+              <span className="bg-[#2F2E41] p-2 font-rubik font-bold rounded-lg text-gray-200">
+                {user.email}
               </span>
             </p>
             <p className="text-[17px] pt-4">
