@@ -52,11 +52,13 @@ catch(err){
 
 exports.getAllRequests = async (req, res) => {
   let resName = req.body.resourceName;
+  let status = req.body.status;
+  let userEmail = req.body.email;
   var monthCountList = [0,0,0,0,0,0,0,0,0,0,0,0];
   var labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
   try{
-    let results = await formModel.find({}, {_id:0,startDate:1});
+    let results = await formModel.find({resourceName: resName, status: status, userEmail: userEmail}, {_id:0,startDate:1});
     results.forEach((request)=>{
       monthCountList[request.startDate.getMonth()]++;
     })
