@@ -64,7 +64,18 @@ exports.getAllRequests = async (req, res) => {
       monthCountList[request.startDate.getMonth()]++;
     })
 
-    if (results.length > 0) res.status(201).json({ status: "success", data:{monthCountList,labels}});
+    if (results.length > 0) res.status(201).json({ status: "success", 
+      data:
+      {
+        labels,
+        datasets:[
+          {
+            label:"Number of Bookings",
+            data:monthCountList 
+          }
+        ]
+      }}
+      );
     else res.status(200).json({ status: "no matching documents", data:[]});
 }
 catch(err){
