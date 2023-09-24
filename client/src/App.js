@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import Cancellation from "./screens/Cancellation";
 import ApproverPage from "./screens/ApprovPage";
+import Analytics from "./screens/Analytics";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -18,16 +19,7 @@ function App() {
       routes = (
         <Routes>
           <Route path="*" element={<Navigate to="/" />} />
-          <Route path="/" element={<Navigate to="/Home" replace={true} />} />
-          <Route
-            path="/Home"
-            element={
-              <>
-                <Navbar />
-                <Login />
-              </>
-            }
-          />
+          <Route path="/" element={<Navigate to="/Admin" replace={true} />} />
           <Route
             path="/Bookings"
             element={
@@ -52,6 +44,15 @@ function App() {
               <>
                 <Navbar />
                 <ApproverPage />
+              </>
+            }
+          />
+          <Route
+            path="/Admin"
+            element={
+              <>
+                <Navbar />
+                <Analytics />
               </>
             }
           />
@@ -132,6 +133,15 @@ function App() {
               <>
                 <Navbar />
                 <ApproverPage />
+              </>
+            }
+          />
+          <Route
+            path="/Admin"
+            element={
+              <>
+                <Navbar />
+                <Analytics />
               </>
             }
           />

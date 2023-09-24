@@ -54,7 +54,12 @@ const Navbar = () => {
         <div className="flex-grow" />{" "}
         {/* This element takes up remaining space */}
         <ul className="flex space-x-3">
-          <NavItem name="Home" icon={<Home size={20} />} path="/Home" />
+          {user.role === "admin" || user.role === "approver" ? (
+            <NavItem name="Admin" icon={<Book size={20} />} path="/Admin" />
+          ) : (
+            <NavItem name="Home" icon={<Home size={20} />} path="/Home" />
+          )}
+
           <NavItem name="Bookings" icon={<Book size={20} />} path="/Bookings" />
           {user.role === "admin" || user.role === "approver" ? (
             <NavItem
