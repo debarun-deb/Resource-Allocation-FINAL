@@ -1,38 +1,48 @@
 const form = require("./../models/formModel");
-const sendEmail = require("../utilities/email_sender")
+const sendEmail = require("../utilities/email_sender");
+const email_Template = require("../utilities/email_template");
+const custodians = {
+  "Seminar Hall": "jaters1200@gmail.com",
+  "Multipurpose Hall": "debarrun@gmail.com",
+  "Central Computing Facility": "samprit62@gmail.com",
+};
+
+exports.getRequesterForms = async (req, res) => {
+  try {
+    const userName = req.user.email;
+    console.log(userName);
+    const requesterForms = await form.find({ userEmail: userName });
+    res.status(200).json(requesterForms);
+  } catch (err) {
+    console.error(err);
+    res.status(404).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
 
 exports.forms = async (req, res) => {
-  const newForm = new form(req.body); 
+  const newForm = new form(req.body);
   try {
     const savedForm = await newForm.save();
-    const emailText = `
-    Hello, your form has been successfully submitted.\n
-    Form ID: ${savedForm.formID}\n
-    Resource Name: ${savedForm.resourceName}\n
-    Event Name: ${savedForm.eventName}\n
-    Event Details: ${savedForm.eventDetails}\n
-    Approved Time: ${savedForm.approvedTime}\n
-    Phone Number: ${savedForm.phoneNumber}\n
-    Start Date: ${savedForm.startDate}\n
-    End Date: ${savedForm.endDate}\n
-    Technician: ${savedForm.Technician}\n
-    Cleaning: ${savedForm.Cleaning}\n
-    Sound: ${savedForm.Sound}\n
-    Status: ${savedForm.isSubmitted}\n
-  `;
-    const mailOptions ={
-      from: 'resourcemsg@outlook.com',
+    const emailhtml = email_Template(savedForm);
+    const mailOptions = {
+      from: "resourcemsg@outlook.com",
       to: savedForm.email,
-      subject:'Form submission confirmation',
-      text:emailText
-    }
-    await sendEmail(mailOptions)
-    res.status(200).json({status: 'success',data:{
-      newForm
-    }});
+      subject: "Form submission confirmation",
+      html: emailhtml,
+    };
+    await sendEmail(mailOptions);
+    res.status(200).json({
+      status: "success",
+      data: {
+        newForm,
+      },
+    });
     console.log(savedForm);
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(500).json(e);
   }
 };
@@ -44,23 +54,76 @@ exports.deleteForm = async (req, res) => {
     res.status(500).json(e);
   }
 };
-//need the email in form when sending it to database
-exports.sortForm = async (req, res) => {
-  const currentDate = new Date();
-  try {
-    const results = await form
-      .find({ startDate: { $gte: currentDate } })
-      .exec();
-    console.log(results);
-  } catch (err) {}
-};
 
-exports.changeFormStatus = async (req, res) => {
-  const newStatus = req.body.newStatus;
-  const user = req.params.id;
+exports.updateFormStatus = async (req, res) => {
   try {
-    await form.findByIdAndUpdate(user, { status: newStatus });
+    const { id, status } = req.body;
+    console.log(id, status);
+
+    if (!id || !status) {
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Parameter missing" });
+    }
+
+    // Find the form by ID and update its status
+    const updatedForm = await form.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedForm) {
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Form not found" });
+    }
+
+    const userEmail = updatedForm.email;
+    const startDate = updatedForm.startDate.toLocaleDateString();
+    const endDate = updatedForm.endDate.toLocaleDateString();
+
+    const userMailOptions = {
+      to: userEmail,
+      from: "resourcemsg@outlook.com",
+      subject: "Form Status Update",
+      text: `Dear Requester,
+
+      This is to inform you that a form with Form ID: ${updatedForm.formID} for the resource named ${updatedForm.resourceName} has undergone a status change. The status has been updated to "${status}" for the period from ${startDate} to ${endDate}.
+  
+      If you have any questions or need further assistance, please feel free to reach out to us at resourcemsg@gmail.com.
+  
+      Sincerely,
+      Resource Management System`,
+    };
+
+    await sendEmail(userMailOptions);
+
+    if (status === "Approved" || status === "Cancelled") {
+      const resourceCustodianEmail = custodians[updatedForm.resourceName];
+
+      if (resourceCustodianEmail) {
+        const custodianMailOptions = {
+          to: resourceCustodianEmail,
+          from: "resourcemsg@outlook.com",
+          subject: "Form Status Update",
+          text: `Dear Resource Custodian,
+
+          This is to inform you that a form with Form ID: ${updatedForm.formID} for the resource named ${updatedForm.resourceName} has undergone a status change. The status has been updated to "${status}" for the period from ${startDate} to ${endDate}.
+      
+          If you have any questions or need further assistance, please feel free to reach out to us at resourcemsg@gmail.com.
+      
+          Sincerely,
+          Resource Management System`,
+        };
+
+        await sendEmail(custodianMailOptions);
+      }
+    }
+
+    res.status(200).json({ status: "Success", data: updatedForm });
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 };

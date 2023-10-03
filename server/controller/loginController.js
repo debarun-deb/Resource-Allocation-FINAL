@@ -2,8 +2,6 @@ const loginForm = require("./../models/LoginModel");
 const jwt = require("jsonwebtoken");
 const SendToken = require("./../utilities/jwtutils");
 const sendEmail = require("../utilities/email_sender");
-const crypto = require('crypto')
-
 
 //signup
 exports.signup = async (req, res) => {
@@ -12,6 +10,7 @@ exports.signup = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       role: req.body.role,
+      location: req.body.location,
     });
     console.log(newUser);
     SendToken(newUser, 200, res);
@@ -22,6 +21,7 @@ exports.signup = async (req, res) => {
     });
   }
 };
+
 
 exports.login = async (req, res) => {
   try {
@@ -34,11 +34,10 @@ exports.login = async (req, res) => {
       return res.status(401).json({
         status: "failed",
         message: "Incorrect email or password",
+        data: user
       });
-    }
-
-    console.log(user); // Log the user object for debugging purposes
-
+    }; 
+    console.log(`..............User ${user.email} logged in............`)
     SendToken(user, 200, res);
   } catch (err) {
     // If an error occurs during the login process
@@ -49,57 +48,6 @@ exports.login = async (req, res) => {
   }
 };
 
-//verify function is working properly
-exports.verify = (req, res, next) => {
-  try {
-    let token;
-    //token is not present
-    if (!req.headers.authorization) {
-      return res
-        .status(401)
-        .json({ status: "failed", message: "please login to continue" });
-    }
-    //split between bearer and jwt token
-    if (req.headers.authorization.startsWith("Bearer ")) {
-      token = req.headers.authorization.split(" ")[1];
-    } else {
-      return res.status(401).json({ error: "Invalid token" });
-    }
-    //token verification
-    const verified = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    if (!verified) {
-      return res.status(403).json({ status: "failed", message: "forbidden" });
-    }
-    if (!verified.role) {
-      return res
-        .status(403)
-        .json({ status: "failed", message: "No role found in the token" });
-    }
-
-    req.user = verified;
-    // console.log('User Role:', req.user.role); // Log the user's role for debugging
-
-    // console.log(req.user) for debugging purposes
-    next();
-  } catch (err) {
-    res.status(500).json({
-      error: err.message,
-      message: "Internal server error",
-    });
-  }
-};
-
-exports.restrict = (...role) => {
-  return (req, res, next) => {
-    // console.log('User Role:', req.user.role); for debugging purposes
-    // console.log('Allowed Roles:', role); // Log the user's role for debugging
-    if (!role.includes(req.user.role)) {
-      res.status(403).json({ message: "Forbidden" });
-    } else {
-      next();
-    }
-  };
-};
 
 exports.forgotPassword = async (req, res, next) => {
   try {
@@ -127,6 +75,7 @@ exports.forgotPassword = async (req, res, next) => {
       await user.save({ validateBeforeSave: false });
       res.status(404).json({ status: "fail", message: "Bad request" });
     }
+    next()
   } catch (err) {
     res.status(500).json({
       error: err.message,
@@ -158,7 +107,7 @@ exports.resetPassword = async (req, res) => {
     // Save the updated user document
     await user.save();
 
- 
+
     res.status(200).json({ status: 'success', message: 'Password reset successful' });
   } catch (err) {
     res.status(500).json({

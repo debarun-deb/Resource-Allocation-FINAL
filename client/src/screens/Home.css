@@ -1,0 +1,8 @@
+.background {
+  background: rgb(255, 230, 199);
+  background: radial-gradient(
+    circle,
+    rgba(255, 230, 199, 1) 0%,
+    rgba(251, 196, 149, 1) 100%
+  );
+}

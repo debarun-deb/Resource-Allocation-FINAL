@@ -15,9 +15,19 @@ const formSchema = new mongoose.Schema({
     unique: true,
     default: () => uuidv4(),
   },
-  status:{
-    type:String,
-    default:"Submitted",
+  status: {
+    type: String,
+    enum: ["Submitted", "Approved", "Cancelled"],
+    default: "Submitted",
+  },
+  deptartment: {
+    type: String,
+    enum: ["cse", "it", "me", "chem", "phy", "eee", "maths", "student"],
+    default: "student",
+  },
+  userEmail: {
+    type: String,
+    required: true,
   },
   resourceName: {
     type: String,
@@ -31,7 +41,7 @@ const formSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  approvedTime: {
+  submittedTime: {
     type: String,
     default: dater,
     select: false,
@@ -39,26 +49,26 @@ const formSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
     validate: [validator.isEmail, "Please provide a valid email"],
   },
   phoneNumber: {
-    type: Number,
-    required: true,
+    type: String,
     validate: {
-      validator: function (num) {
-        // Convert the number to a string and check its length
-        const phoneNumberString = num.toString();
-        return phoneNumberString.length >= 10;
+      validator: function (v) {
+        return /^[6-9]\d{9}$/.test(v);
       },
-      message: "Phone number must be at least 10 digits long",
+      message: "{VALUE} is not a valid Indian phone number!",
     },
+    required: [true, "User phone number required"],
   },
   studentCoordinator: {
     type: String,
   },
-  RegistrationNo: {
+  registrationNumber: {
     type: Number,
+  },
+  studentEmail: {
+    type: String,
   },
   startDate: {
     type: Date,

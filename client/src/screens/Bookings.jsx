@@ -1,16 +1,87 @@
 import React from "react";
-import Bcards from "../components/BCards.jsx";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import Bcards from "../components/BCards";
+import { useSelector } from "react-redux";
 
 const Bookings = () => {
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState();
+  const [error, setError] = useState();
+  const location = useLocation();
+  const token = useSelector((state) => state.token);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const getData = async () => {
+    try {
+      const response = (
+        await axios.get("http://localhost:8000/request/requesterForms", config)
+      ).data;
+      setBookings(response);
+      setLoading(false);
+      console.log(response);
+    } catch (error) {
+      setError(true);
+      console.error(error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
-    <div>
-      <h1 className="flex px-5 py-2 text-xl font-bold">Bookings</h1>
-      <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-full">
-        <h1 className="px-3 text-xl font-bold">Pending</h1>
+    <div className="flex items-center flex-col">
+      <div className="bg-[#1F6E8C] flex py-4 mt-4 rounded-xl justify-center items-center w-[20%]">
+        <h1 className="px-3 text-xl font-bold">For Approval</h1>
       </div>
-      <Bcards />
-      <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-full">
-        <h1 className="px-3 text-xl font-bold">Confirmed</h1>
+      <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
+        {loading ? (
+          <h1>Loading...</h1>
+        ) : error ? (
+          <h1>Error</h1>
+        ) : (
+          bookings.map((books) => {
+            if (books.status === "Submitted") {
+              return (
+                <Bcards
+                  books={books}
+                  path={location.pathname}
+                  render={getData}
+                />
+              );
+            } else {
+              return null;
+            }
+          })
+        )}
+      </div>
+      <div className="bg-[#1F6E8C] flex my-6 py-3 rounded-xl justify-center items-center w-[20%]">
+        <h1 className="px-3 text-xl font-bold">Approved Bookings</h1>
+      </div>
+      <div className="grid grid-cols-3 gap-0 mx-auto w-[90%] pl-10">
+        {loading ? (
+          <h1>Loading...</h1>
+        ) : error ? (
+          <h1>Error</h1>
+        ) : (
+          bookings.map((books) => {
+            if (books.status === "Approved") {
+              return (
+                <Bcards
+                  books={books}
+                  path={location.pathname}
+                  render={getData}
+                />
+              );
+            } else {
+              return null;
+            }
+          })
+        )}
       </div>
     </div>
   );

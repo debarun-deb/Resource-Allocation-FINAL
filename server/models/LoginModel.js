@@ -1,7 +1,6 @@
 const mongoose = require("mongoose") 
 const validator = require("validator")
 const bcrypt = require("bcrypt")
-const crypto = require('crypto')
 const loginSchema = mongoose.Schema({
     email: {
       type: String,
@@ -12,13 +11,18 @@ const loginSchema = mongoose.Schema({
     password: {
       type: String,
       required: true,
-      minlength: [8, 'a password must be at least 8 characters'],
+      minlength: [3, 'a password must be at least 3 characters'],
       select: false
     },
     role: {
       type: String,
       enum: ['admin','approver','requester'],
       default: 'requester'
+    },
+    location:{
+      type: String,
+      enum: ['','Seminar Hall','Multipurpose Hall','Central Computing Facility'],
+      default: ''
     },
     passwordResetToken:{
       type: String,
@@ -29,7 +33,6 @@ const loginSchema = mongoose.Schema({
       select: false
     },
   });
-
 
   loginSchema.pre('save', async function (next){
     if(!this.isModified('password')) return next()
@@ -49,6 +52,6 @@ loginSchema.methods.resetPassToken = async function(){
   return reset
 }
 
-  const loginData = mongoose.model("collections", loginSchema);
+  const loginData = mongoose.model("userInfo", loginSchema);
 
   module.exports = loginData;

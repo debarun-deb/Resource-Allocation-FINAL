@@ -1,13 +1,11 @@
-const express = require('express')
-const router = express.Router()
-const formControl = require('../controller/formController')
+const express = require("express");
+const router = express.Router();
+const formControl = require("../controller/formController");
+const { verify } = require("../middleware/verify");
 
+router.route("/home").post(formControl.forms);
+router.route("/requesterForms").get(verify, formControl.getRequesterForms);
+router.route("/home/:id").delete(formControl.deleteForm);
+router.route("/updateStatus").patch(formControl.updateFormStatus);
 
-
-router.route('/home').post(formControl.forms)
-router.route('/home/:id').delete(formControl.deleteForm)
-router.route('/approver').post(formControl.sortForm)
-router.route('/status/:id').patch(formControl.changeFormStatus) // not working need to be tested
-
-
-module.exports = router
+module.exports = router;

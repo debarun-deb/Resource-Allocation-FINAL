@@ -1,35 +1,66 @@
 import React from "react";
 import axios from "axios";
 import resource from "../assets/resource.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin } from "../state";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login2 = () => {
+  const user = useSelector((state) => state.User);
+  const dispatch = useDispatch();
   const history = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function submit(e) {
+    toast();
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8000/login", { // Update the URL to the login endpoint
+      const response = await axios.post("http://localhost:8000/user/login", {
+        // Update the URL to the login endpoint
         email,
         password,
       });
 
       if (response.status === 200) {
+        console.log(response.data.token);
         // Handle the successful login here, such as saving the token or redirecting to another page
-        history("/home/");
+        dispatch(
+          setLogin({
+            user: response.data.data.user,
+            token: response.data.token,
+          })
+        );
+        history("/");
       } else {
         // Handle other possible responses
-        alert("Login failed");
+        toast.error("Invalid username or password.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } catch (error) {
-      // Handle error responses
-      alert("Login failed");
-      console.log(error);
+      toast.error("Invalid username or password.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
 
@@ -72,6 +103,7 @@ const Login2 = () => {
             >
               Log In
             </button>
+            <ToastContainer />
             <p className="flex items-center mt-8">
               <input type="checkbox" className="mr-2" />
               Remember me
